@@ -1,4 +1,4 @@
-![](https://github.com/williamniemiec/universitask/blob/master/docs/img/logo/logo.jpg)
+![](https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/logo/universitask.png)
 
 <h1 align='center'>UniversiTask</h1>
 <p align='center'>Academic Task Manager focused on deadlines.</p>
