@@ -1508,6 +1508,11 @@
     "@typescript-eslint/types" "4.31.2"
     eslint-visitor-keys "^2.0.0"
 
+"@wniemiec-component-reactnative/action-button@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@wniemiec-component-reactnative/action-button/-/action-button-1.0.1.tgz#30f682fb2cd6a6e8e1d437dcfa64af9e964d717a"
+  integrity sha512-gbK2l8OK+JpccVG2l17dhMBV7Fmty6knpcyc1U8VWYENGTZfysJiIL5gDe12u3JQkC0kxRdtGHz3xbqtco+byg==
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
