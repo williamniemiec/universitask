@@ -8,10 +8,30 @@ const StackNavigator = createStackNavigator();
 
 function HomeStack() {
   return (
-    <StackNavigator.Navigator>
-      <StackNavigator.Screen name="HomeScreen" component={HomeScreen} />
-      <StackNavigator.Screen name="TaskScreen" component={TaskScreen} />
-      <StackNavigator.Screen name="HistoryScreen" component={HistoryScreen} />
+    <StackNavigator.Navigator
+      initialRouteName="HomeScreen"
+    >
+      <StackNavigator.Screen 
+        name="HomeScreen" 
+        component={HomeScreen}
+        options={{
+          title: "Tasks"
+        }}
+      />
+      <StackNavigator.Screen 
+        name="TaskScreen" 
+        component={TaskScreen} 
+        options={{
+          title: "Task"
+        }}
+      />
+      <StackNavigator.Screen 
+        name="HistoryScreen" 
+        component={HistoryScreen}
+        options={{
+          title: "History"
+        }} 
+      />
     </StackNavigator.Navigator>
   );
 }
