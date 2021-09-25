@@ -1,4 +1,19 @@
 {
-  "name": "universitask",
-  "displayName": "universitask"
+  "name": "main",
+  "displayName": "UniversiTask",
+  "expo": {
+    "owner": "universitask",
+    "name": "universitask",
+    "icon": "./src/assets/img/icon/icon.png",
+    "version": "1.0.0",
+    "slug": "UniversiTask",
+    "ios": {
+      "bundleIdentifier": "com.universitask",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.universitask",
+      "versionCode": 1
+    }
+  }
 }
