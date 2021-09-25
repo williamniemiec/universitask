@@ -25,10 +25,17 @@ UniversiTask is an academic task manager focused on prioritizing tasks according
 - [React Native CLI](https://reactnative.dev/docs/environment-setup).
 
 ## ℹ How to run
+
 Type in your terminal:
 
 1. npm install
-2. react-native run-android
+
+#### Local
+2. react-native run-android OR react-native run-ios
+
+#### Expo
+2. npm install -g expo-cli
+3. build:android -t app-bundle OR expo build:ios -t simulator
 
 ## 🖼 Gallery
 
