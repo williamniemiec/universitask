@@ -4,7 +4,7 @@ import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import { store, persistor } from './Store';
 import { NavigationContainer } from '@react-navigation/native';
-import MainStack from './navigators/MainStack';
+import MainTab from './navigators/MainTab';
 
 function App() {
   return (
@@ -24,7 +24,7 @@ const Storage = ({ children }) => (
 
 const Navigation = ({ children }) => (
   <NavigationContainer>
-    <MainStack />
+    <MainTab />
   </NavigationContainer>
 );
 
