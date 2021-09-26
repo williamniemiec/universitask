@@ -6,5 +6,8 @@ export const Title = styled.Text`
 `;
 
 export const Area = styled.Text`
-  margin: 10px;
+  margin-bottom: 50px;
+  margin-top: 20px;
+  flex: 1;
+  width: 90%;
 `;

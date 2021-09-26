@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Container from '../../components/template/Container';
-import ThemeButton from '../../components/ThemeButton';
+import Task from '../../components/Task';
 import { Area } from './styled';
 
 function HomeScreen() {
@@ -15,11 +15,7 @@ function HomeScreen() {
   return (
     <Container>
       <Area>
-        <ThemeButton 
-          title="Ir para config screen"
-          full={true}
-          onPress={handleConfigScreen}
-        />
+        <Task />
       </Area>
     </Container>
   );
