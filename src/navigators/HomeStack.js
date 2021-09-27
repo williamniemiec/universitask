@@ -15,7 +15,8 @@ function HomeStack() {
         name="HomeScreen" 
         component={HomeScreen}
         options={{
-          title: "Tasks"
+          title: "Tasks",
+          headerShown: false
         }}
       />
       <StackNavigator.Screen 
