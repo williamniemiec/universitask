@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Container from '../../components/template/Container';
 import Task from '../../components/Task';
-import { Area } from './styled';
+import { Area, Title } from './styled';
 
 function HomeScreen() {
   
@@ -14,6 +14,7 @@ function HomeScreen() {
 
   return (
     <Container>
+      <Title>Tasks</Title>
       <Area>
         <Task />
       </Area>
