@@ -23,7 +23,7 @@ export default StyleSheet.create({
     bottom: 15,
     left: '40%',
     borderWidth: 10,
-    borderColor: 'white'
+    borderColor: '#fff'
   },
   main: {
     width: '55%',

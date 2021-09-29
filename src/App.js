@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import { NativeBaseProvider } from 'native-base';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import { store, persistor } from './Store';
@@ -8,9 +9,11 @@ import MainTab from './navigators/MainTab';
 
 function App() {
   return (
-    <Storage>
-      <Navigation />
-    </Storage>
+    <NativeBaseProvider>
+      <Storage>
+        <Navigation />
+      </Storage>
+    </NativeBaseProvider>
   );
 }
 
