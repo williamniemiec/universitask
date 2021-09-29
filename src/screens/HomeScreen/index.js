@@ -15,9 +15,7 @@ function HomeScreen() {
   return (
     <Container>
       <Title>Tasks</Title>
-      <Area>
         <Task />
-      </Area>
     </Container>
   );
 }

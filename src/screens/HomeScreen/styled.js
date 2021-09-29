@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Title = styled.Text`
   font-size: 25px;
-  margin-top: 20px;
+  margin: 20px 0;
 `;
 
 export const Area = styled.Text`

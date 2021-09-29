@@ -1,132 +1,153 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { Image, Text, View, StyleSheet } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { Progress } from 'native-base';
 
-const list = [{id: '1', name: 'a'}, {id: '2', name: 'b'}]
-const {vw, vh, vmin, vmax} = require('react-native-expo-viewport-units');
-
-const ListItemArea = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #FFFFFF;
-  border-color: #707070;
-  border-width: 1px;
-  height: 60px;
-  width: ${vw(85)}px;
-  margin-bottom: 30px;
-`; 
-
-const LeftArea = styled.View`
-  flex: 1;
-  background-color: green;
-`;
-
-const Row = styled.View`
-  height: 20px;
-  background-color: purple;
-  border: 1px solid black;
-`;
-
-const RightArea = styled.View`
-  width: 50px;
-  justify-content: center;
-  align-items: center;
-  background-color: red;
-`;
-
-const ListItem = ({data}) => (
-  <ListItemArea>
-    <LeftArea>
-      <Row>
-        <Text>{data.item.name}</Text>
-      </Row>
-      <Row>
-        <Text>MLP</Text>
-      </Row>
-      <Row>
-        <Text>..................... 50%</Text>
-      </Row>
-    </LeftArea>
-    <RightArea>
-      <Text>60%</Text>
-    </RightArea>
-  </ListItemArea>
-);
-
-const SwipeListItem = ({data}) => (
-  <View style={styles.rowBack}>
-    <Image source={require('../../assets/img/icon/trash.png')} style={styles.rowBackIcon}/>
-  </View>
-);
 
 const Task = () => {
-  return (
+  
+  const list = [
+    {id: '1', name: 'Assignment 2'}, 
+    {id: '2', name: 'Exam'},
+    {id: '3', name: 'Assignment 2'}, 
+    {id: '4', name: 'Exam'},
+    {id: '5', name: 'Assignment 2'}, 
+    {id: '6', name: 'Exam'},
+    {id: '7', name: 'Assignment 2'}, 
+    {id: '8', name: 'Exam'},
+  ]
+
+  const {vw, vh, vmin, vmax} = require('react-native-expo-viewport-units');
+  const [tasks, setTasks] = useState([]);
+
+  
+
+  const ListItemArea = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #FFFFFF;
+    border-color: #707070;
+    border-width: 1px;
+    height: 85px;
+    width: ${vw(85)}px;
+    margin-bottom: 30px;
+    padding: 10px;
+  `; 
+
+  const LeftArea = styled.View`
+    flex: 1;
+    justify-content: center;
+  `;
+
+  const Row = styled.View`
+    height: 20px;
+  `;
+
+  const RightArea = styled.View`
+    width: 80px;
+    justify-content: center;
+    align-items: center;
+  `;
+
+  const ListItem = ({data}) => (
+    <ListItemArea>
+      <LeftArea>
+        <Row>
+          <Text>{data.item.name}</Text>
+        </Row>
+        <Row>
+          <Text>MLP</Text>
+        </Row>
+        <Row>
+          <Progress colorScheme="light" size="xs" marginTop={2} mb={4} value={50} />
+        </Row>
+      </LeftArea>
+      <RightArea>
+        <Text>60% · 3d</Text>
+      </RightArea>
+    </ListItemArea>
+  );
+
+  const RowBack = styled.View`
+    height: 85px;
+    max-height: 85px;
+    background-color: #f90233;
+    align-items: center;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 20px;
+    margin-right: 5px;
+  `;
+
+  const RowBackicon = styled.Image`
+    max-height: 40px;
+    max-width: 40px;
+  `;
+
+  const CharacterImage = styled.Image`
+    height: 200px;
+    width: 200px;
+    margin-bottom: 20px;
+  `;
+
+  const NoTasksMessageArea = styled.View`
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  `;
+
+  const CharacterMessage = styled.Text`
+    font-size: 20px;
+    text-align: center;
+    color: #333;
+  `;
+
+  const NoTasksMessage = () => (
+    <NoTasksMessageArea>
+      <CharacterImage source={require('../../assets/img/characters/mavin.png')} resizeMode='contain' />
+      <CharacterMessage>Uau, não existem tarefas!</CharacterMessage>
+      <CharacterMessage>Aproveite e vá viver um pouco!</CharacterMessage>
+    </NoTasksMessageArea>
+  );
+
+  const TaskList = () => (
     <SwipeListView
-      data={list}
+      data={tasks}
       keyExtractor={(item) => item.id}
-      style={{flex: 1, width: '100%'}}
-      leftOpenValue={60}
+      style={{flex: 1, width: '100%', height: vh(70)}}
+      leftOpenValue={70}
       renderItem={(item, index) => <ListItem data={item} onPress={() => alert('DONE!')} />}
-      renderHiddenItem={({item, index}) => <SwipeListItem />}
+      renderHiddenItem={({item, index}) => (
+        <RowBack>
+          <RowBackicon source={require('../../assets/img/icon/trash.png')}/>
+        </RowBack>
+      )}
       disableLeftSwipe={true}
-      stopLeftSwipe={60}
+      stopLeftSwipe={80}
+      scrollEnabled={true}
+      showsVerticalScrollIndicator={true}
       onRowOpen={(rowKey, rowMap) => {
         const target = rowMap[rowKey].props.item
-        const idx = list.indexOf(target);
+        const idx = tasks.indexOf(target);
 
         rowMap[rowKey].closeRow();
-        //removeItem(idx);
+        const newList = tasks.filter((e, index) => index != idx);
+        setTasks(newList);
       }}
     />
-  );/*
-  listViewData = Array(20)
-    .fill("")
-    .map((_, i) => ({ key: `${i}`, text: `item #${i}` }));
-  return (
-    <SwipeListView
-        data={listViewData}
-        renderItem={ (data, rowMap) => (
-            <View style={styles.rowFront}>
-                <Text>I am {data.item.text} in a SwipeListView</Text>
-            </View>
-        )}
-        renderHiddenItem={ (data, rowMap) => (
-            <View style={styles.rowBack}>
-                <Text>Left</Text>
-                <Text>Right</Text>
-            </View>
-        )}
-        leftOpenValue={75}
-        rightOpenValue={-75}
-    />
-)*/
-}
+  );
 
-const styles = StyleSheet.create({
-  rowFront: {
-      alignItems: 'center',
-      backgroundColor: '#FFFFFF',
-      borderColor: '#707070',
-      borderWidth: 1,
-      justifyContent: 'center',
-      height: 60,
-      width: vw(90),
-      marginBottom: 30
-  },
-  rowBackIcon: {
-    maxHeight: 30,
-    maxWidth: 30,
-  },
-  rowBack: {
-    maxHeight: 60,
-    backgroundColor: '#cc0000',
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-  }
-});
+  useEffect(() => {
+    setTasks(list);
+  }, []);
+
+  return (
+    tasks.length == 0
+    ? <NoTasksMessage />
+    : <TaskList />
+  );
+}
 
 export default Task;
