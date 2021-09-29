@@ -47,7 +47,7 @@ const RemoveTaskIcon = () => (
     marginRight={5}
   >
     <Image
-      source={require('../../../assets/img/icon/trash.png')}
+      source={require('../../assets/img/icon/trash.png')}
       alt='remove task icon'
       style={{
         maxHeight: 40,
