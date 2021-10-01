@@ -41,6 +41,7 @@ function MainStack() {
       tabBar={(props) => <CustomTabBar { ...props } />}
       screenOptions={({route}) => ({
         tabBarIcon: () => buildTabBarIcon(route),
+        tabBarHideOnKeyboard: true,
         headerStyle: {
           backgroundColor: colors.secondary
         },
