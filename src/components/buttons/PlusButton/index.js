@@ -6,7 +6,7 @@ const PlusButton = ({ onPress }) => (
   <Button 
     height={46} 
     _text={{
-      color: "#1F2937",
+      color: "#888",
       fontSize: 30
     }}
     style={style}
