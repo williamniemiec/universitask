@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableHighlight, View } from 'react-native';
-import styles from './styles'
-import { Keyboard } from 'react-native';
+import { Keyboard, TouchableHighlight, View } from 'react-native';
+import styles from './styles';
 
 function CustomTabBar({ state, descriptors, navigation }) {
 
