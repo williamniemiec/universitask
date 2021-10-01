@@ -11,16 +11,23 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 function CreateTaskScreen() {
 
-  const [pressedOpenButton, setPressedOpenButton] = useState(false);
   const [dateBegin, setDateBegin] = useState(new Date(1598051730000));
   const [modeBegin, setModeBegin] = useState('date');
-  const [showBegin, setShowBegin] = useState(false);
+  const [showTimeBegin, setShowTimeBegin] = useState(false);
+  const [showDateBegin, setShowDateBegin] = useState(false);
 
   const [dateEnd, setDateEnd] = useState(new Date(1598051730000));
   const [modeEnd, setModeEnd] = useState('date');
   const [showEnd, setShowEnd] = useState(false);
 
+  const openDatetimePickerForBegin = () => {
+    setModeBegin('date');
+    setShowTimeBegin(true);
+    setShowDateBegin(true);
+  }
+
   const onChangeBegin = (event, selectedDate) => {
+    console.log(event)
     const currentDate = selectedDate || dateBegin;
 
     if (Platform.OS === 'ios') {
@@ -30,17 +37,13 @@ function CreateTaskScreen() {
     else {
       setDateBegin(currentDate);
 
-      if (modeBegin === 'date' && pressedOpenButton) {
+      if (showDateBegin) {
         setModeBegin('time');
-        setShowBegin(true);
       }
-      else {
-        setModeBegin('date');
-        setShowBegin(false);
-      }
-    }
 
-    setPressedOpenButton(false);
+      if (event.type == 'set' && modeBegin === 'time')
+        setShowDateBegin(false);
+    }
   };
 
   const onChangeEnd = (event, selectedDate) => {
@@ -163,9 +166,10 @@ function CreateTaskScreen() {
               marginRight: 20
             }}
             showSoftInputOnFocus={false}
-            onTouchEnd={() => {setPressedOpenButton(true);setShowBegin(true);}}
+            onTouchEnd={() => openDatetimePickerForBegin()}
           />
-          {showBegin && (
+
+          {showDateBegin && (
             <DateTimePicker
               testID="dateTimePicker"
               value={dateBegin}
@@ -192,7 +196,7 @@ function CreateTaskScreen() {
             showSoftInputOnFocus={false}
             onTouchEnd={() => {setPressedOpenButton(true);setShowEnd(true);}}
           />
-          {showEnd && (
+          {/*showEnd && (
             <DateTimePicker
               testID="dateTimePicker"
               value={dateEnd}
@@ -201,7 +205,7 @@ function CreateTaskScreen() {
               display='default'
               onChange={onChangeEnd}
             />
-          )}
+          )*/}
         </Flex>
       </Flex>
       <Button backgroundColor={colors.secondary} width='90%' marginTop={10}>CREATE</Button>
