@@ -6,6 +6,7 @@ import ConfigScreen from '../screens/ConfigScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import CustomTabBar from '../components/CustomTabBar';
+import colors from '../colors';
 
 const TabNavigator = createBottomTabNavigator();
 
@@ -39,7 +40,11 @@ function MainStack() {
       initialRouteName="HomeStack"
       tabBar={(props) => <CustomTabBar { ...props } />}
       screenOptions={({route}) => ({
-        tabBarIcon: () => buildTabBarIcon(route)
+        tabBarIcon: () => buildTabBarIcon(route),
+        headerStyle: {
+          backgroundColor: colors.secondary
+        },
+        headerTintColor: colors.lightText
       })}
     >
       <TabNavigator.Screen 

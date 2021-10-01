@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import TaskScreen from '../screens/TaskScreen';
 import HistoryScreen from '../screens/HistoryScreen';
+import colors from '../colors';
 
 const StackNavigator = createStackNavigator();
 
@@ -10,6 +11,12 @@ function HomeStack() {
   return (
     <StackNavigator.Navigator
       initialRouteName="HomeScreen"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.secondary
+        },
+        headerTintColor: colors.lightText
+      }}
     >
       <StackNavigator.Screen 
         name="HomeScreen" 
