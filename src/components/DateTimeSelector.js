@@ -56,8 +56,7 @@ const DateTimeSelector = ({ dateRef, monthFirst=false, ...baseProps }) => {
           backgroundColor: '#ffffff',
           borderWidth: 1,
           borderColor: '#cccccc',
-          marginBottom: 20,
-          marginRight: 20
+          marginBottom: 20
         }}
         showSoftInputOnFocus={false}
         onTouchEnd={() => openDateTimeSelector()}

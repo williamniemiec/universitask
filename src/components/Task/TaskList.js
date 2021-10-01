@@ -29,7 +29,7 @@ const TaskList = ({ tasks, setTasks }) => {
   
   const RemoveTaskIcon = () => (
     <Flex
-      maxHeight={88}
+      maxHeight={86}
       backgroundColor='#f90233'
       alignItems='center'
       flex={1}
@@ -113,7 +113,7 @@ const TaskList = ({ tasks, setTasks }) => {
   return (
     <SwipeListView
       data={tasks}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => String(item.id)}
       style={{flex: 1, width: '100%', height: vh(70)}}
       leftOpenValue={70}
       renderItem={(item, index) => <ListItem data={item} onPress={() => alert('DONE!')} />}
