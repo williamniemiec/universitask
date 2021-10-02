@@ -153,7 +153,7 @@ function CreateTaskScreen() {
               style={{
                 backgroundColor: '#ffffff',
                 borderWidth: 1,
-                borderRadius: 5,
+                borderLeftRadius: 5,
                 borderColor: '#cccccc',
                 marginBottom: 20
               }}
