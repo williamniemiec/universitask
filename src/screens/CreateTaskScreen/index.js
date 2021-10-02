@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Flex,
   Input,
@@ -18,7 +18,7 @@ import SecondaryButton from '../../components/buttons/SecondaryButton';
 import ColorPicker from 'react-native-wheel-color-picker'
 import { useNavigation } from '@react-navigation/native';
 
-function CreateTaskScreen() {
+function CreateTaskScreen({refresh}) {
 
   const [name, setName] = useState('');
   const [course, setCourse] = useState('');
@@ -26,7 +26,14 @@ function CreateTaskScreen() {
   const [courseName, setCourseName] = useState('');
 
   const dispatch = useDispatch();
-  const courses = useSelector(state => state.UserReducer.courses);
+  let courses = useSelector(state => state.UserReducer.courses);
+
+  if (!courses)
+    courses = [{
+      id: '-1',
+      name: '',
+      color: '#ccc'
+    }]
 
   const dateBegin = useRef(new Date());
   const dateEnd = useRef(new Date());
@@ -118,7 +125,7 @@ function CreateTaskScreen() {
     console.log(courseName)
     console.log(color.current)
     console.log("-------------------------")
-
+    console.log(courses)
     setShowModal(false);
   }
 

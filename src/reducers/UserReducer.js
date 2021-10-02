@@ -16,8 +16,8 @@ import { v4 as uuid } from 'uuid';
  * }]
  */
 const initialState = {
-  courses: [],
-  tasks: []  
+  courses: [{}],
+  tasks: [{}]  
 };
 
 export default (state=initialState, action) => {
@@ -64,18 +64,29 @@ export default (state=initialState, action) => {
       
       return { ...state, tasks: newTaskList };
     case 'INSERT_COURSE':
-      if (state.courses.find(c => c.name == action.payload.name) !== undefined)
-        return state;
+      let courses;
 
-      const course = {
-        id: uuid(),
-        name: action.payload.name,
-        color: action.payload.color
+      if (!state.courses) {
+        courses = [{
+          id: uuid(),
+          name: action.payload.name,
+          color: action.payload.color
+        }]
+      }
+      else {
+        if (state.courses.find(c => c.name == action.payload.name) !== undefined)
+          return state;
+
+        const course = {
+          id: uuid(),
+          name: action.payload.name,
+          color: action.payload.color
+        }
+        
+        courses = state.courses;
+        courses.push(course);
       }
       
-      const courses = state.courses;
-      courses.push(course);
-
       return { ...state, courses: courses };
     case 'UPDATE_COURSE':
       return state;

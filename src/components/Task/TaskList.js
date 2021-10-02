@@ -47,10 +47,10 @@ const TaskList = ({ tasks, setTasks }) => {
     const now = new Date().getTime();
     const prediction = now - dateBegin;
 
-    if (now >= dateEnd)
+    if (prediction >= dateEnd)
       return 1.0;
 
-    return (prediction / (dateEnd - dateBegin));
+    return Math.abs(prediction / (dateEnd - dateBegin));
   }
 
   function getCompletenessPredictionInDays(dateBegin, dateEnd) {
