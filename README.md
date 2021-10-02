@@ -30,12 +30,29 @@ Type in your terminal:
 
 1. npm install
 
-#### Local
+#### Local - Windows
 2. react-native run-android OR react-native run-ios
+
+#### Local - Linux
+2. react-native start
+3. react-native run-android OR react-native run-ios
 
 #### Expo
 2. npm install -g expo-cli
-3. build:android -t app-bundle OR expo build:ios -t simulator
+3. expo start
+
+#### Throubleshoot
+##### Error
+"""
+error SHA-1 for file /usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js (/usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js) is not computed. Run CLI with --verbose flag for more details.
+ReferenceError: SHA-1 for file /usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js (/usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js) is not computed
+"""
+
+##### Solution - Linux
+> npx react-native start
+
+##### Solution - Windows
+> npx react-native run-android
 
 ## 🖼 Gallery
 
