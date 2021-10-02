@@ -1,29 +1,35 @@
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
+/*
+ * courses: [{
+ *   id: '-1',
+ *   name: '',
+ *   color: ''
+ * }],
+ * tasks: [{
+ *   id: '-1',
+ *   name: '',
+ *   course: '-1',
+ *   dateBegin: 0,
+ *   dateEnd: 0
+ * }]
+ */
 const initialState = {
-  /*courses: [{
-    id: '-1',
-    name: '',
-    color: ''
-  }],
-  tasks: [{
-    id: '-1',
-    name: '',
-    course: '-1',
-    dateBegin: 0,
-    dateEnd: 0
-  }]*/
   courses: [],
   tasks: []  
 };
 
 export default (state=initialState, action) => {
+  const currentMonth = new Date().getMonth();
   const tasks = state.tasks;
+  let task;
+  let newTaskList;
+  let taskId;
 
   switch(action.type) {
     case 'INSERT_TASK':
-      const task = {
+      task = {
         id: uuid(),
         name: action.payload.name,
         course: action.payload.course,
@@ -35,10 +41,26 @@ export default (state=initialState, action) => {
 
       return { ...state, tasks: tasks };
     case 'UPDATE_TASK':
-      return state;
+      taskId = action.payload.id;
+      newTaskList = tasks.filter(task => task.id !== taskId);
+
+      if (newTaskList.length === 0)
+        return;
+      
+      task = {
+        id: taskId,
+        name: action.payload.name,
+        course: action.payload.course,
+        dateBegin: action.payload.dateBegin,
+        dateEnd: action.payload.dateEnd
+      }
+      
+      tasks.push(task);
+
+      return { ...state, tasks: newTaskList };
     case 'REMOVE_TASK':
-      const taskId = action.payload.id;
-      const newTaskList = tasks.filter(task => task.id !== taskId);
+      taskId = action.payload.id;
+      newTaskList = tasks.filter(task => task.id !== taskId);
       
       return { ...state, tasks: newTaskList };
     case 'INSERT_COURSE':
@@ -58,13 +80,20 @@ export default (state=initialState, action) => {
     case 'UPDATE_COURSE':
       return state;
     case 'REMOVE_COURSE':
-      return state;
+      const courseId = action.payload.id;
+      const newCourseList = tasks.filter(c => c.id !== courseId);
+      
+      return { ...state, courses: newCourseList };
     case 'RESET_TASKS_MONTH':
-      return state;
-    case 'RESET_TASKS_YEAR':
-      return state;
+      newTaskList = tasks.filter(task => task.begin.getMonth() === currentMonth);
+      
+      return { ...state, tasks: newTaskList };
+    case 'RESET_TASKS_SEMESTER':
+      newTaskList = tasks.filter(task => task.begin.getMonth() >= currentMonth + 6);
+      
+      return { ...state, tasks: newTaskList };
     case 'RESET':
-      return state;
+      return initialState;
   }
 
   return state;
