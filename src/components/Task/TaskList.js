@@ -11,7 +11,7 @@ import {
   Pressable
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const {vw, vh, vmin, vmax} = require('react-native-expo-viewport-units');
 
@@ -31,9 +31,16 @@ const TaskList = ({ tasks, setTasks }) => {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const courses = useSelector(state => state.UserReducer.courses);
 
   function handleTaskSelection() {
     navigation.navigate('TaskScreen');
+  }
+
+  function getCourseName(courseId) {
+    const course = courses.filter(c => c.id == courseId)[0];
+
+    return course ? course.name : '';
   }
   
   const RemoveTaskIcon = () => (
@@ -80,7 +87,7 @@ const TaskList = ({ tasks, setTasks }) => {
         <Text numberOfLines={1}>{data.item.name}</Text>
       </Row>
       <Row>
-        <Text numberOfLines={1}>{data.item.course}</Text>
+        <Text numberOfLines={1}>{getCourseName(data.item.course)}</Text>
       </Row>
       <Row>
         <Progress 
