@@ -43,6 +43,29 @@ const TaskList = ({ tasks, setTasks }) => {
     return course ? course.name : '';
   }
   
+  function getCompletenessPrediction(dateBegin, dateEnd) {
+    const now = new Date().getTime();
+    const prediction = now - dateBegin;
+
+    if (now >= dateEnd)
+      return 1.0;
+
+    return (prediction / (dateEnd - dateBegin));
+  }
+
+  function getCompletenessPredictionInDays(dateBegin, dateEnd) {
+    const now = new Date().getTime();
+    const prediction = now - dateBegin;
+
+    if (prediction >= dateEnd)
+      return '0d';
+      
+      const oneDay = 24 * 60 * 60 * 1000;
+      const diffDays = Math.round(Math.abs((now - dateEnd) / oneDay));
+
+    return `${diffDays}d`;
+  }
+
   const RemoveTaskIcon = () => (
     <Flex
       maxHeight={86}
@@ -76,7 +99,7 @@ const TaskList = ({ tasks, setTasks }) => {
         padding={3}
       >
         <LeftArea data={data} />
-        <RightArea />
+        <RightArea data={data} />
       </Box>
     </Pressable>
   );
@@ -95,17 +118,17 @@ const TaskList = ({ tasks, setTasks }) => {
           size="xs" 
           marginTop={2} 
           mb={2} 
-          value={50} 
+          value={getCompletenessPrediction(data.item.dateBegin, data.item.dateEnd) * 100} 
         />
       </Row>
     </Container>
   );
 
-  const RightArea = () => (
+  const RightArea = ({ data }) => (
     <Center width={70}>
       <Container>
         <Text>
-          60% · 3d
+          {`${(getCompletenessPrediction(data.item.dateBegin, data.item.dateEnd) * 100).toFixed(2)}% · ${getCompletenessPredictionInDays(data.item.dateBegin, data.item.dateEnd)}`}
         </Text>
       </Container>
     </Center>

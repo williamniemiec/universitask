@@ -128,8 +128,8 @@ function CreateTaskScreen() {
       payload: {
         name: name,
         course: course,
-        dateBegin: dateBegin,
-        dateEnd: dateEnd
+        dateBegin: dateBegin.current.getTime(),
+        dateEnd: dateEnd.current.getTime()
       }
     });
     
