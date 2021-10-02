@@ -4,7 +4,7 @@ import Container from '../../components/template/Container';
 import Task from '../../components/Task';
 import { Area, Title } from './styled';
 
-function HomeScreen() {
+function HomeScreen({ route }) {
   
   const navigation = useNavigation();
 
@@ -15,7 +15,7 @@ function HomeScreen() {
   return (
     <Container>
       <Title>Tasks</Title>
-        <Task />
+        <Task refresh={route.params?.new}/>
     </Container>
   );
 }

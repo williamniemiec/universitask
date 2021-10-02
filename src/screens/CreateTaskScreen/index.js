@@ -140,7 +140,19 @@ function CreateTaskScreen() {
     console.log(dateEnd.current)
     console.log("------------------------")
 
-    navigation.navigate('HomeStack')
+    clearFields();
+
+    navigation.navigate('HomeScreen', { new: true })
+  }
+
+  function clearFields() {
+    setName('');
+    setCourse('');
+    setCourseName('');
+    color.current = colors.secondary;
+    borderColorRef.current = '#cccccc'
+    dateBegin.current = new Date();
+    dateBegin.current = new Date();
   }
 
   return (
@@ -153,7 +165,7 @@ function CreateTaskScreen() {
       <Flex width='90%'>
         <Heading size='xs'>Name</Heading>
         <Input
-          placeholder='Mavin'
+          placeholder='Exam'
           value={name}
           w={{
             md: "50%",
