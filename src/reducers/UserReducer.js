@@ -21,22 +21,38 @@ const initialState = {
 export default (state=initialState, action) => {
   switch(action.type) {
     case 'INSERT_TASK':
-      const task = action.payload.task;
-      task.id = uuid();
-      
-      const tasks = initialState.tasks;
+      const task = {
+        id: uuid(),
+        name: action.payload.name,
+        course: action.payload.course,
+        dateBegin: action.payload.dateBegin,
+        dateEnd: action.payload.dateEnd
+      }
+      const tasks = state.tasks;
       tasks.push(task);
 
-      return { ...initialState, tasks: tasks };
+      return { ...state, tasks: tasks };
     case 'UPDATE_TASK':
       return state;
     case 'REMOVE_TASK':
       return state;
-    case 'INSERT_CATEGORY':
+    case 'INSERT_COURSE':
+      if (state.courses.find(c => c.name == action.payload.name) !== undefined)
+        return state;
+
+      const course = {
+        id: uuid(),
+        name: action.payload.name,
+        color: action.payload.color
+      }
+      
+      const courses = state.courses;
+      courses.push(course);
+
+      return { ...state, courses: courses };
+    case 'UPDATE_COURSE':
       return state;
-    case 'UPDATE_CATEGORY':
-      return state;
-    case 'REMOVE_CATEGORY':
+    case 'REMOVE_COURSE':
       return state;
     case 'RESET_TASKS_MONTH':
       return state;

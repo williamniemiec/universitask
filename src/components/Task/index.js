@@ -10,11 +10,12 @@ const Task = () => {
   const [loading, setLoading] = useState(true);
 
   const taskList = useSelector(state => state.UserReducer.tasks);
-
+  
   useEffect(() => {
     setTasks(taskList);
     setLoading(false);
-  }, []);
+    console.log(taskList)
+  }, [tasks]);
 
   if (loading)
     return <Loading />
