@@ -10,6 +10,7 @@ const Task = ({ refresh }) => {
   const [loading, setLoading] = useState(true);
 
   const taskList = useSelector(state => state.UserReducer.tasks);
+  const courseList = useSelector(state => state.UserReducer.courses);
   
   useEffect(() => {
     setTasks(taskList);
@@ -19,7 +20,7 @@ const Task = ({ refresh }) => {
   if (loading)
     return <Loading />;
   
-  if (tasks.length === 0)
+  if (!courseList || tasks.length === 0)
     return <NoTasksMessage />;
 
   return <TaskList tasks={tasks} setTasks={setTasks} />;
