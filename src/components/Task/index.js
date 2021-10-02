@@ -4,7 +4,7 @@ import Loading from './Loading';
 import TaskList from './TaskList';
 import { useSelector } from 'react-redux';
 
-const Task = () => {
+const Task = ({ refresh }) => {
 
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,11 +14,10 @@ const Task = () => {
   useEffect(() => {
     setTasks(taskList);
     setLoading(false);
-    console.log(taskList)
-  }, [tasks]);
+  }, [tasks, refresh]);
 
   if (loading)
-    return <Loading />
+    return <Loading />;
   
   if (tasks.length === 0)
     return <NoTasksMessage />;

@@ -19,6 +19,8 @@ const initialState = {
 };
 
 export default (state=initialState, action) => {
+  const tasks = state.tasks;
+
   switch(action.type) {
     case 'INSERT_TASK':
       const task = {
@@ -28,14 +30,17 @@ export default (state=initialState, action) => {
         dateBegin: action.payload.dateBegin,
         dateEnd: action.payload.dateEnd
       }
-      const tasks = state.tasks;
+      
       tasks.push(task);
 
       return { ...state, tasks: tasks };
     case 'UPDATE_TASK':
       return state;
     case 'REMOVE_TASK':
-      return state;
+      const taskId = action.payload.id;
+      const newTaskList = tasks.filter(task => task.id !== taskId);
+      
+      return { ...state, tasks: newTaskList };
     case 'INSERT_COURSE':
       if (state.courses.find(c => c.name == action.payload.name) !== undefined)
         return state;

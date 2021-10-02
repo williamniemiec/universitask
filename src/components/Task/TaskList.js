@@ -11,17 +11,26 @@ import {
   Pressable
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 const {vw, vh, vmin, vmax} = require('react-native-expo-viewport-units');
 
-function removeTask(index, tasks, setTasks) {
-  const newList = tasks.filter((e, idx) => idx != index);
+function removeTask(id, tasks, setTasks, dispatch) {
+  dispatch({
+    type: 'REMOVE_TASK',
+    payload: {
+      id: id
+    }
+  })
+
+  const newList = tasks.filter(task => task.id !== id);
   setTasks(newList);
 }
 
 const TaskList = ({ tasks, setTasks }) => {
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   function handleTaskSelection() {
     navigation.navigate('TaskScreen');
@@ -50,13 +59,12 @@ const TaskList = ({ tasks, setTasks }) => {
   );
 
   const ListItem = ({data}) => (
-    <Pressable onPress={handleTaskSelection}>
+    <Pressable onPress={handleTaskSelection} height={86} marginBottom={30}>
       <Box
         borderWidth={1}
         borderColor='#707070'
         backgroundColor='#FFFFFF'
         flexDirection='row'
-        marginBottom={30}
         justifyContent='space-between'
         padding={3}
       >
@@ -69,10 +77,10 @@ const TaskList = ({ tasks, setTasks }) => {
   const LeftArea = ({ data }) => (
     <Container>
       <Row>
-        {data.item.name}
+        <Text numberOfLines={1}>{data.item.name}</Text>
       </Row>
       <Row>
-        {data.item.course}
+        <Text numberOfLines={1}>{data.item.course}</Text>
       </Row>
       <Row>
         <Progress 
@@ -102,7 +110,7 @@ const TaskList = ({ tasks, setTasks }) => {
       _text={{
         fontSize: "sm",
         color: "#222",
-        letterSpacing: "lg",
+        letterSpacing: "lg"
       }}
     >
       { children }
@@ -127,7 +135,7 @@ const TaskList = ({ tasks, setTasks }) => {
         const idx = tasks.indexOf(target);
 
         rowMap[rowKey].closeRow();
-        removeTask(idx, tasks, setTasks);
+        removeTask(tasks[idx].id, tasks, setTasks, dispatch);
       }}
     />
   );
