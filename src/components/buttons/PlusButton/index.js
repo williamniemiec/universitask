@@ -2,11 +2,11 @@ import React from 'react';
 import { Button } from 'native-base';
 import style from './style';
 
-const PlusButton = ({ onPress }) => (
+const PlusButton = ({ color, onPress }) => (
   <Button 
     height={46} 
     _text={{
-      color: "#888",
+      color: color,
       fontSize: 30
     }}
     style={style}
