@@ -5,23 +5,33 @@ import {
   Heading, 
   Button,
   Select,
-  CheckIcon
+  CheckIcon,
+  Modal,
+  FormControl
 } from 'native-base';
 import colors from '../../colors';
 import PlusButton from '../../components/buttons/PlusButton';
 import DateTimeSelector from '../../components/DateTimeSelector';
 import { useDispatch, useSelector } from 'react-redux';
+import PrimaryButton from '../../components/PrimaryButton';
+import SecondaryButton from '../../components/buttons/SecondaryButton';
+import ColorPicker from 'react-native-wheel-color-picker'
 
 function CreateTaskScreen() {
 
   const [name, setName] = useState('');
   const [course, setCourse] = useState('1');
+  const [showModal, setShowModal] = useState(false);
+  //const [courseName, setCourseName] = useState('');
 
   const dispatch = useDispatch();
   const courses = useSelector(state => state.UserReducer.courses);
 
   const dateBegin = useRef(new Date());
   const dateEnd = useRef(new Date());
+  const colorPicker = useRef(null);
+  const color = useRef(colors.secondary);
+  const courseName = useRef('');
 
   function handleNewTask() {
     dispatch({
@@ -33,6 +43,10 @@ function CreateTaskScreen() {
         dateEnd: dateEnd
       }
     });
+  }
+
+  function handleNewCourse() {
+    setShowModal(true);
   }
 
   const NameField = () => (
@@ -88,7 +102,7 @@ function CreateTaskScreen() {
           <Select.Item label="UI Designing" value="4" />
           <Select.Item label="Backend Development" value="5" />
         </Select>
-        <PlusButton onPress={() => alert('PRESSIONOU')} />
+        <PlusButton color={colors.primary} onPress={handleNewCourse} />
       </Flex>
     </Flex>
   );
@@ -125,6 +139,60 @@ function CreateTaskScreen() {
     </Button> 
   );
 
+  const NewCourseModal = () => (
+    <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+      <Modal.Content maxWidth="400px">
+        <Modal.CloseButton />
+        <Modal.Header>New course</Modal.Header>
+        <Modal.Body>
+          <FormControl>
+            <FormControl.Label>Name</FormControl.Label>
+            <Input 
+              value={courseName.current}
+              placeholder='Artificial Intelligence'
+              style={{
+                backgroundColor: '#ffffff',
+                borderWidth: 1,
+                borderRadius: 5,
+                borderColor: '#cccccc',
+                marginBottom: 20
+              }}
+              onChangeText={t => courseName.current = t}
+            />
+          </FormControl>
+          <FormControl mt="3">
+            <FormControl.Label>Color</FormControl.Label>
+            <ColorPicker
+              ref={colorPicker}
+              color={color.current}
+              onColorChange={newColor => color.current = newColor}
+            />
+          </FormControl>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button.Group space={2}>
+            <SecondaryButton
+              onPress={() => {
+                setShowModal(false)
+              }}
+            >
+              Cancel
+            </SecondaryButton>
+            <PrimaryButton 
+              onPress={() => {
+                console.log('Name: ', courseName.current);
+                console.log('Color: ', color);
+                setShowModal(false)
+              }}
+            >
+              CREATE
+            </PrimaryButton>
+          </Button.Group>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal>
+  );
+
   return (
     <Flex 
       flex={1} 
@@ -134,6 +202,7 @@ function CreateTaskScreen() {
     >
       <NameField />
       <CourseField />
+      <NewCourseModal />
       <DateRangeField />
       <CreateButton />
     </Flex>
