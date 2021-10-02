@@ -72,7 +72,7 @@ const TaskList = ({ tasks, setTasks }) => {
         {data.item.name}
       </Row>
       <Row>
-        MLP
+        {data.item.course}
       </Row>
       <Row>
         <Progress 
