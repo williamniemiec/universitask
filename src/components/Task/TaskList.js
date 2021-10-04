@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { 
   Progress, 
@@ -12,6 +12,7 @@ import {
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+import { RefreshControl } from 'react-native';
 
 const {vw, vh, vmin, vmax} = require('react-native-expo-viewport-units');
 
@@ -28,6 +29,9 @@ function removeTask(id, tasks, setTasks, dispatch) {
 }
 
 const TaskList = ({ tasks, setTasks }) => {
+
+  const [refreshing, setRefreshing] = useState(false);
+  const [visibleTasks, setVisibleTasks] = useState(tasks);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -47,7 +51,7 @@ const TaskList = ({ tasks, setTasks }) => {
     const now = new Date().getTime();
     const prediction = now - dateBegin;
 
-    if (prediction >= dateEnd)
+    if (prediction >= dateEnd || (dateEnd === dateBegin))
       return 1.0;
 
     return Math.abs(prediction / (dateEnd - dateBegin));
@@ -64,6 +68,12 @@ const TaskList = ({ tasks, setTasks }) => {
       const diffDays = Math.round(Math.abs((now - dateEnd) / oneDay));
 
     return `${diffDays}d`;
+  }
+
+  function handleRefresh() {
+    setVisibleTasks([]);
+    setRefreshing(false);
+    setTimeout(() => setVisibleTasks(tasks), 10); // Forces update
   }
 
   const RemoveTaskIcon = () => (
@@ -147,10 +157,10 @@ const TaskList = ({ tasks, setTasks }) => {
     </Box>
   );
 
-
   return (
     <SwipeListView
-      data={tasks}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+      data={visibleTasks}
       keyExtractor={(item) => String(item.id)}
       style={{flex: 1, width: '100%', height: vh(70)}}
       leftOpenValue={70}
