@@ -67,7 +67,7 @@ function ConfigScreen() {
           style: "cancel"
         },
         {
-          text: "OK", 
+          text: "YES", 
           onPress: () =>removeCourse()
         }
       ]
@@ -95,6 +95,84 @@ function ConfigScreen() {
     return c ? c.color : '#cccccc';
   }
 
+  function handleRemoveAllMonthTasks() {
+    Alert.alert(
+      "Warning: destructive action",
+      "Are you sure you want to remove all month tasks?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel"
+        },
+        {
+          text: "YES", 
+          onPress: () =>resetMonthTasks()
+        }
+      ]
+    );
+  }
+
+  function resetMonthTasks() {
+    dispatch({
+      type: 'RESET_TASKS_MONTH'
+    });
+
+    navigation.navigate('HomeScreen', { new: true });
+  }
+
+  function handleRemoveAllSemesterTasks() {
+    Alert.alert(
+      "Warning: destructive action",
+      "Are you sure you want to remove all semester tasks?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel"
+        },
+        {
+          text: "YES", 
+          onPress: () =>resetSemesterTasks()
+        }
+      ]
+    );
+  }
+
+  function resetSemesterTasks() {
+    dispatch({
+      type: 'RESET_TASKS_SEMESTER'
+    });
+
+    navigation.navigate('HomeScreen', { new: true });
+  }
+
+  function reset() {
+    dispatch({
+      type: 'RESET'
+    });
+
+    navigation.navigate('HomeScreen', { new: true });
+  }
+
+  function handleReset() {
+    Alert.alert(
+      "Warning: destructive action",
+      "Are you sure you want to remove all tasks?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel"
+        },
+        {
+          text: "YES", 
+          onPress: () =>reset()
+        }
+      ]
+    ); 
+  }
+
   return (
     <Flex 
       flex={1} 
@@ -108,12 +186,12 @@ function ConfigScreen() {
         marginTop={5}
         onPress={() => setShowModal(true)}
       >
-        UPDATE COURSE
+        UPDATE / REMOVE COURSE
       </Button> 
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
-          <Modal.Header>Update course</Modal.Header>
+          <Modal.Header>Update / remove course</Modal.Header>
           <Modal.Body>
             <FormControl>
               <FormControl.Label>Course</FormControl.Label>
@@ -165,6 +243,30 @@ function ConfigScreen() {
           </Modal.Footer>
         </Modal.Content>
       </Modal>
+      <Button 
+        backgroundColor={colors.secondary} 
+        width='90%' 
+        marginTop={5}
+        onPress={handleRemoveAllMonthTasks}
+      >
+        REMOVE ALL MONTH TASKS
+      </Button>
+      <Button 
+        backgroundColor={colors.secondary} 
+        width='90%' 
+        marginTop={5}
+        onPress={handleRemoveAllSemesterTasks}
+      >
+        REMOVE ALL SEMESTER TASKS
+      </Button>
+      <Button 
+        backgroundColor={colors.secondary} 
+        width='90%' 
+        marginTop={5}
+        onPress={handleReset}
+      >
+        RESET
+      </Button> 
     </Flex>
   );
 }
