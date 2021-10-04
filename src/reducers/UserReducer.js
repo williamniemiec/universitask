@@ -107,11 +107,11 @@ export default (state=initialState, action) => {
       
       return { ...state, tasks: newTaskList, courses: newCourseList };
     case 'RESET_TASKS_MONTH':
-      newTaskList = tasks.filter(task => task.begin.getMonth() === currentMonth);
+      newTaskList = tasks.filter(task => new Date(task.dateBegin).getMonth() < currentMonth);
       
       return { ...state, tasks: newTaskList };
     case 'RESET_TASKS_SEMESTER':
-      newTaskList = tasks.filter(task => task.begin.getMonth() >= currentMonth + 6);
+      newTaskList = tasks.filter(task => new Date(task.dateBegin).getMonth() <= currentMonth - 5);
       
       return { ...state, tasks: newTaskList };
     case 'RESET':
