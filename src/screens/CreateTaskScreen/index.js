@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Alert } from 'react-native';
 import {
   Flex,
   Input,
@@ -113,6 +114,22 @@ function CreateTaskScreen({refresh}) {
   }
 
   function handleNewCourse() {
+    if (courseName.trim().length == 0) {
+      Alert.alert(
+        "Error",
+        "You need to provide a course name",
+        [
+          {
+            text: "OK",
+            onPress: () => {},
+            style: "cancel"
+          }
+        ]
+      );
+
+      return;
+    }
+
     dispatch({
       type: 'INSERT_COURSE',
       payload: {
@@ -130,6 +147,54 @@ function CreateTaskScreen({refresh}) {
   }
 
   function handleNewTask() {
+    if (course.trim().length == 0) {
+      Alert.alert(
+        "Error",
+        "You need to select a course",
+        [
+          {
+            text: "OK",
+            onPress: () => {},
+            style: "cancel"
+          }
+        ]
+      );
+
+      return;
+    }
+
+    if (name.trim().length == 0) {
+      Alert.alert(
+        "Error",
+        "You need to provide a task name",
+        [
+          {
+            text: "OK",
+            onPress: () => {},
+            style: "cancel"
+          }
+        ]
+      );
+
+      return;
+    }
+
+    if (dateBegin.current.getTime() > dateEnd.current.getTime()) {
+      Alert.alert(
+        "Error",
+        "The task cannot start after the deadline",
+        [
+          {
+            text: "OK",
+            onPress: () => {},
+            style: "cancel"
+          }
+        ]
+      );
+
+      return;
+    }
+
     dispatch({
       type: 'INSERT_TASK',
       payload: {
