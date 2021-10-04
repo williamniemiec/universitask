@@ -16,8 +16,8 @@ import { v4 as uuid } from 'uuid';
  * }]
  */
 const initialState = {
-  courses: [{}],
-  tasks: [{}]  
+  courses: [],
+  tasks: []  
 };
 
 export default (state=initialState, action) => {
