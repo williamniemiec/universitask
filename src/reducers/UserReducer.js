@@ -23,9 +23,12 @@ const initialState = {
 export default (state=initialState, action) => {
   const currentMonth = new Date().getMonth();
   const tasks = state.tasks;
+  let courses = state.courses;
+  let courseId;
+  let taskId;
   let task;
   let newTaskList;
-  let taskId;
+  let newCourseList;
 
   switch(action.type) {
     case 'INSERT_TASK':
@@ -64,8 +67,6 @@ export default (state=initialState, action) => {
       
       return { ...state, tasks: newTaskList };
     case 'INSERT_COURSE':
-      let courses;
-
       if (!state.courses) {
         courses = [{
           id: uuid(),
@@ -74,7 +75,7 @@ export default (state=initialState, action) => {
         }]
       }
       else {
-        if (state.courses.find(c => c.name == action.payload.name) !== undefined)
+        if (courses.find(c => c.name == action.payload.name) !== undefined)
           return state;
 
         const course = {
@@ -83,18 +84,28 @@ export default (state=initialState, action) => {
           color: action.payload.color
         }
         
-        courses = state.courses;
         courses.push(course);
       }
       
       return { ...state, courses: courses };
     case 'UPDATE_COURSE':
-      return state;
+      courseId = action.payload.id;
+      let updatedCourse = courses.find(c => c.id == courseId);
+
+      if (updatedCourse !== undefined) {
+        updatedCourse.color = action.payload.color;
+
+        newCourseList = courses.filter(course => course.id !== courseId);
+        newCourseList.push(updatedCourse);
+        
+        return { ...state, courses: newCourseList };
+      }
     case 'REMOVE_COURSE':
-      const courseId = action.payload.id;
-      const newCourseList = tasks.filter(c => c.id !== courseId);
+      courseId = action.payload.id;
+      newCourseList = courses.filter(c => c.id !== courseId);
+      newTaskList = tasks.filter(t => t.course !== courseId);
       
-      return { ...state, courses: newCourseList };
+      return { ...state, tasks: newTaskList, courses: newCourseList };
     case 'RESET_TASKS_MONTH':
       newTaskList = tasks.filter(task => task.begin.getMonth() === currentMonth);
       

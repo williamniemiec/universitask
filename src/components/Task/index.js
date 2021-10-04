@@ -15,7 +15,7 @@ const Task = ({ refresh }) => {
   useEffect(() => {
     setTasks(taskList);
     setLoading(false);
-  }, [tasks, refresh]);
+  }, [taskList, refresh]);
 
   if (loading)
     return <Loading />;
