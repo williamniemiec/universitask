@@ -21,102 +21,176 @@ const initialState = {
 };
 
 export default (state=initialState, action) => {
-  const currentMonth = new Date().getMonth();
-  const tasks = state.tasks;
-  let courses = state.courses;
-  let courseId;
-  let taskId;
-  let task;
-  let newTaskList;
-  let newCourseList;
 
   switch(action.type) {
     case 'INSERT_TASK':
-      task = {
-        id: uuid(),
-        name: action.payload.name,
-        course: action.payload.course,
-        dateBegin: action.payload.dateBegin,
-        dateEnd: action.payload.dateEnd
-      }
-      
-      tasks.push(task);
-
-      return { ...state, tasks: tasks };
+      return insertTask(action.payload, state);
     case 'UPDATE_TASK':
-      taskId = action.payload.id;
-      newTaskList = tasks.filter(task => task.id !== taskId);
-
-      if (newTaskList.length === 0)
-        return;
-      
-      task = {
-        id: taskId,
-        name: action.payload.name,
-        course: action.payload.course,
-        dateBegin: action.payload.dateBegin,
-        dateEnd: action.payload.dateEnd
-      }
-      
-      tasks.push(task);
-
-      return { ...state, tasks: newTaskList };
+      return updateTask(action.payload, state);
     case 'REMOVE_TASK':
-      taskId = action.payload.id;
-      newTaskList = tasks.filter(task => task.id !== taskId);
-      
-      return { ...state, tasks: newTaskList };
+      return removeTask(action.payload, state);
     case 'INSERT_COURSE':
-      if (!state.courses) {
-        courses = [{
-          id: uuid(),
-          name: action.payload.name,
-          color: action.payload.color
-        }]
-      }
-      else {
-        if (courses.find(c => c.name == action.payload.name) !== undefined)
-          return state;
-
-        const course = {
-          id: uuid(),
-          name: action.payload.name,
-          color: action.payload.color
-        }
-        
-        courses.push(course);
-      }
-      
-      return { ...state, courses: courses };
+      return insertCourse(action.payload, state);
     case 'UPDATE_COURSE':
-      courseId = action.payload.id;
-      let updatedCourse = courses.find(c => c.id == courseId);
-
-      if (updatedCourse !== undefined) {
-        updatedCourse.color = action.payload.color;
-
-        newCourseList = courses.filter(course => course.id !== courseId);
-        newCourseList.push(updatedCourse);
-        
-        return { ...state, courses: newCourseList };
-      }
+      return updateCourse(action.payload, state);
     case 'REMOVE_COURSE':
-      courseId = action.payload.id;
-      newCourseList = courses.filter(c => c.id !== courseId);
-      newTaskList = tasks.filter(t => t.course !== courseId);
-      
-      return { ...state, tasks: newTaskList, courses: newCourseList };
+      return removeCourse(action.payload, state);
     case 'RESET_TASKS_MONTH':
-      newTaskList = tasks.filter(task => new Date(task.dateBegin).getMonth() < currentMonth);
-      
-      return { ...state, tasks: newTaskList };
+      return removeTasksFromCurrentMonth(action.payload);
     case 'RESET_TASKS_SEMESTER':
-      newTaskList = tasks.filter(task => new Date(task.dateBegin).getMonth() <= currentMonth - 5);
-      
-      return { ...state, tasks: newTaskList };
+      return removeTasksFromCurrentSemester(action.payload);
     case 'RESET':
-      return initialState;
+      return removeAllTasks();
+    default:
+      return state;
   }
-
-  return state;
 };
+
+function insertTask(payload, state) {
+  const tasks = state.tasks;
+  const task = buildTaskFromPayload(payload, uuid());
+  
+  tasks.push(task);
+
+  return { ...state, tasks: tasks };
+}
+
+function buildTaskFromPayload(payload, taskId)  {
+  return {
+    id: taskId,
+    name: payload.name,
+    course: payload.course,
+    dateBegin: payload.dateBegin,
+    dateEnd: payload.dateEnd
+  }
+}
+
+function updateTask(payload, state) {
+  const tasks = state.tasks;
+  const newTaskList = tasks.filter(task => task.id !== payload.id);
+
+  if (newTaskList.length !== 0) {
+    const task = buildTaskFromPayload(payload, payload.id);
+  
+    tasks.push(task);
+  }
+    
+  return { ...state, tasks: newTaskList };
+}
+
+function removeTask(payload, state) {
+  const tasks = state.tasks;
+  const newTaskList = tasks.filter(task => task.id !== payload.id);
+
+  return { ...state, tasks: newTaskList };
+}
+
+function insertCourse(payload, state) {
+  const course = buildCourseFromPayload(payload, uuid());
+  let courses = state.courses;
+
+  if (!hasAnyPersistedCourses(state)) {
+    courses = [course]
+  }
+  else if (!hasPersistedCourseWithName(payload.name)){
+    courses.push(course);
+  }
+  
+  return { ...state, courses: courses };
+}
+
+function hasAnyPersistedCourses(state) {
+  return state.courses;
+}
+
+function hasPersistedCourseWithName(name, state) {
+  const courses = state.courses;
+
+  return (courses.find(c => c.name == name) !== undefined);
+}
+
+function buildCourseFromPayload(payload, courseId)  {
+  return {
+    id: courseId,
+    name: payload.name,
+    color: payload.color
+  }
+}
+
+function updateCourse(payload, state) {
+  if (!hasPersistedCourseWithId(payload.id))
+    return state;
+
+  let updatedCourse = getPersistedCourseWithId(payload.id);
+  updatedCourse.color = payload.color;
+
+  const newCourseList = getPersistedCoursesWithoutId(payload.id);
+  newCourseList.push(updatedCourse);
+  
+  return { ...state, courses: newCourseList };
+}
+
+function hasPersistedCourseWithId(id, state) {
+  const courses = state.courses;
+
+  return (courses.find(c => c.id == id) !== undefined);
+}
+
+function getPersistedCourseWithId(id, state) {
+  const courses = state.courses;
+
+  return courses.find(c => c.id == id);
+}
+
+function getPersistedCoursesWithoutId(id, state) {
+  const courses = state.courses;
+
+  return courses.filter(course => course.id !== id);
+}
+
+function removeCourse(payload, state) {
+  const newCourseList = getPersistedCoursesWithoutId(payload.id);
+  const newTaskList = getPersistedTasksWithoutCourseId(payload.id);
+  
+  return { ...state, tasks: newTaskList, courses: newCourseList };
+}
+
+function getPersistedTasksWithoutCourseId(id, state) {
+  const tasks = state.tasks;
+
+  return tasks.filter(task => task.course !== id);
+}
+
+function removeTasksFromCurrentMonth(state) {
+  const newTaskList = getPersistedTasksBeforeCurrentMonth(state);
+      
+  return { ...state, tasks: newTaskList };
+}
+
+function getPersistedTasksBeforeCurrentMonth(state) {
+  const currentMonth = new Date().getMonth();
+  const tasks = state.tasks;
+
+  return tasks.filter(task => getTaskBeginDate(task).getMonth() < currentMonth);
+}
+
+function getTaskBeginDate(task) {
+  return new Date(task.dateBegin);
+}
+
+function removeTasksFromCurrentSemester(state) {
+  const newTaskList = getPersistedTasksBeforeCurrentSemester(state);
+      
+  return { ...state, tasks: newTaskList };
+}
+
+function getPersistedTasksBeforeCurrentSemester(state) {
+  const currentMonth = new Date().getMonth();
+  const tasks = state.tasks;
+
+  return tasks.filter(task => getTaskBeginDate(task).getMonth() < currentMonth - 5);
+}
+
+function removeAllTasks() {
+  return initialState;
+}
