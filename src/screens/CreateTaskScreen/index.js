@@ -82,7 +82,7 @@ function CreateTaskScreen({refresh}) {
               <Select.Item key={c.id} label={c.name} value={c.id} />  
             ))}
           </Select>
-          <PlusButton color={colors.primary} onPress={handleNewCourse} />
+          <PlusButton color={colors.secondary} onPress={handleNewCourse} />
         </Flex>
       </Flex>
     );
@@ -299,14 +299,13 @@ function CreateTaskScreen({refresh}) {
         </Modal.Content>
       </Modal>
       <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
-      <Button 
-        backgroundColor={colors.secondary} 
+      <PrimaryButton 
         width='90%' 
         marginTop={5}
         onPress={handleNewTask}
       >
         CREATE
-      </Button> 
+      </PrimaryButton> 
     </Flex>
   );
 }

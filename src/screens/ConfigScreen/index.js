@@ -6,7 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import UpdateRemoveCourseModal from './UpdateRemoveCourseModal';
 
-function ConfigScreen() {
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
+const ConfigScreen = () => {
 
   const [course, setCourse] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -16,140 +20,12 @@ function ConfigScreen() {
   const dispatch = useDispatch();
   let courses = useSelector(state => state.UserReducer.courses);
 
-  if (!courses)
+  if (!courses) {
     courses = [{
       id: '-1',
       name: '',
       color: '#ccc'
-    }]
-
-  function handleRemoveCourse() {
-    Alert.alert(
-      "Warning: destructive action",
-      "Are you sure you want to remove this course? All tasks associated with this course will also be removed!",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel"
-        },
-        {
-          text: "YES", 
-          onPress: () =>removeCourse()
-        }
-      ]
-    ); 
-  }
-  
-  function removeCourse() {
-    dispatch({
-      type: 'REMOVE_COURSE',
-      payload: {
-        id: course
-      }
-    });
-
-    setShowModal(false);
-    clearFields();
-    navigation.navigate('HomeScreen', { new: true })
-  }
-
-  function clearFields() {
-    setCourse('');
-    color.current = colors.secondary;
-  }
-
-  function handleUpdateCourse() {
-    dispatch({
-      type: 'UPDATE_COURSE',
-      payload: {
-        id: course,
-        color: color.current
-      }
-    });
-
-    setShowModal(false);
-    clearFields();
-
-    navigation.navigate('ConfigScreen');
-  }
-  
-  function handleRemoveAllMonthTasks() {
-    Alert.alert(
-      "Warning: destructive action",
-      "Are you sure you want to remove all month tasks?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel"
-        },
-        {
-          text: "YES", 
-          onPress: () =>resetMonthTasks()
-        }
-      ]
-    );
-  }
-
-  function resetMonthTasks() {
-    dispatch({
-      type: 'RESET_TASKS_MONTH'
-    });
-
-    navigation.navigate('HomeScreen', { new: true });
-  }
-
-  function handleRemoveAllSemesterTasks() {
-    Alert.alert(
-      "Warning: destructive action",
-      "Are you sure you want to remove all semester tasks?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel"
-        },
-        {
-          text: "YES", 
-          onPress: () =>resetSemesterTasks()
-        }
-      ]
-    );
-  }
-
-  function resetSemesterTasks() {
-    dispatch({
-      type: 'RESET_TASKS_SEMESTER'
-    });
-
-    navigation.navigate('HomeScreen', { new: true });
-  }
-
-  function reset() {
-    dispatch({
-      type: 'RESET'
-    });
-
-    navigation.navigate('HomeScreen', { new: true });
-  }
-
-  function handleReset() {
-    Alert.alert(
-      "Warning: destructive action",
-      "Are you sure you want to remove all tasks?",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel"
-        },
-        {
-          text: "YES", 
-          onPress: () =>reset()
-        }
-      ]
-    ); 
+    }];
   }
 
   return (
@@ -166,16 +42,20 @@ function ConfigScreen() {
         courses={courses} 
         selectedCourse={course} 
         setSelectedCourse={setCourse} 
-        onRemoveCourse={handleRemoveCourse} 
-        onUpdateCourse={handleUpdateCourse} 
+        onRemoveCourse={() => handleRemoveCourse(dispatch, setShowModal, navigation, 
+                                                 course, setCourse, color)} 
+        onUpdateCourse={() => handleUpdateCourse(dispatch, setShowModal, navigation, 
+                                                 course, setCourse, color)} 
         colorRef={color}
       />
-      <RemoveAllMonthTasksButton onPress={handleRemoveAllMonthTasks} />
-      <RemoveAllSemesterTasksButton onPress={handleRemoveAllSemesterTasks} />
-      <ResetButton onPress={handleReset} />
+      <RemoveAllMonthTasksButton onPress={() => handleRemoveAllMonthTasks(dispatch, navigation)} />
+      <RemoveAllSemesterTasksButton onPress={() => handleRemoveAllSemesterTasks(dispatch, navigation)} />
+      <ResetButton onPress={() => handleReset(dispatch, navigation)} />
     </Flex>
   );
 }
+
+export default ConfigScreen;
 
 const UpdateRemoveCourseButton = ({ onPress }) => (
   <Button 
@@ -221,4 +101,136 @@ const ResetButton = ({ onPress }) => (
   </Button> 
 );
 
-export default ConfigScreen;
+
+//-----------------------------------------------------------------------------
+//		Functions
+//-----------------------------------------------------------------------------
+function handleRemoveCourse(dispatch, setShowModal, navigation, course, 
+                            setCourse, colorRef) {
+  Alert.alert(
+    "Warning: destructive action",
+    "Are you sure you want to remove this course? All tasks associated with"
+    + "this course will also be removed!",
+    [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      {
+        text: "YES", 
+        onPress: () => removeCourse(dispatch, setShowModal, navigation, course, 
+                                    setCourse, colorRef)
+      }
+    ]
+  ); 
+}
+
+function removeCourse(dispatch, setShowModal, navigation, course, setCourse, 
+                      colorRef) {
+  dispatch({
+    type: 'REMOVE_COURSE',
+    payload: {
+      id: course
+    }
+  });
+
+  setShowModal(false);
+  clearFields(setCourse, colorRef);
+  navigation.navigate('HomeScreen', { new: true })
+}
+
+function clearFields(setCourse, colorRef) {
+  setCourse('');
+  colorRef.current = colors.secondary;
+}
+
+function handleUpdateCourse(dispatch, setShowModal, navigation, course, 
+                            setCourse, colorRef) {
+  dispatch({
+    type: 'UPDATE_COURSE',
+    payload: {
+      id: course,
+      color: colorRef.current
+    }
+  });
+
+  setShowModal(false);
+  clearFields(setCourse, colorRef);
+
+  navigation.navigate('ConfigScreen');
+}
+
+function handleRemoveAllMonthTasks(dispatch, navigation) {
+  Alert.alert(
+    "Warning: destructive action",
+    "Are you sure you want to remove all month tasks?",
+    [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      {
+        text: "YES", 
+        onPress: () => resetMonthTasks(dispatch, navigation)
+      }
+    ]
+  );
+}
+
+function resetMonthTasks(dispatch, navigation) {
+  dispatch({
+    type: 'RESET_TASKS_MONTH'
+  });
+
+  navigation.navigate('HomeScreen', { new: true });
+}
+
+function handleRemoveAllSemesterTasks(dispatch, navigation) {
+  Alert.alert(
+    "Warning: destructive action",
+    "Are you sure you want to remove all semester tasks?",
+    [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      {
+        text: "YES", 
+        onPress: () => resetSemesterTasks(dispatch, navigation)
+      }
+    ]
+  );
+}
+
+function resetSemesterTasks(dispatch, navigation) {
+  dispatch({
+    type: 'RESET_TASKS_SEMESTER'
+  });
+
+  navigation.navigate('HomeScreen', { new: true });
+}
+
+function handleReset(dispatch, navigation) {
+  Alert.alert(
+    "Warning: destructive action",
+    "Are you sure you want to remove all tasks?",
+    [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      {
+        text: "YES", 
+        onPress: () => reset(dispatch, navigation)
+      }
+    ]
+  ); 
+}
+
+function reset(dispatch, navigation) {
+  dispatch({
+    type: 'RESET'
+  });
+
+  navigation.navigate('HomeScreen', { new: true });
+}

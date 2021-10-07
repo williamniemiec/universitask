@@ -11,6 +11,10 @@ import PrimaryButton from '../../components/PrimaryButton';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
 import ColorPicker from 'react-native-wheel-color-picker'
 
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
 const UpdateRemoveCourseModal = ({ 
    show, onClose, courses, selectedCourse, setSelectedCourse, onRemoveCourse, 
    onUpdateCourse, colorRef 
@@ -44,6 +48,8 @@ const UpdateRemoveCourseModal = ({
       </Modal>
    );
 }
+
+export default UpdateRemoveCourseModal;
 
 const UpdateRemoveCourseModalHeader = () => (
    <Modal.Header>
@@ -119,5 +125,3 @@ const UpdateRemoveCourseModalFooter = ({ onRemoveCourse, onUpdateCourse })=> (
       </Button.Group>
    </Modal.Footer>
 );
-
-export default UpdateRemoveCourseModal;

@@ -7,6 +7,10 @@ import { store, persistor } from './Store';
 import { NavigationContainer } from '@react-navigation/native';
 import MainTab from './navigators/MainTab';
 
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
 const App = () => {
   return (
     <NativeBaseProvider>
@@ -16,6 +20,8 @@ const App = () => {
     </NativeBaseProvider>
   );
 }
+
+export default App;
 
 const Storage = ({ children }) => (
   <Provider store={store}>
@@ -30,5 +36,3 @@ const Navigation = ({ children }) => (
     <MainTab />
   </NavigationContainer>
 );
-
-export default App;

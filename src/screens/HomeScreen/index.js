@@ -4,6 +4,10 @@ import Container from '../../components/template/Container';
 import Task from '../../components/Task';
 import styles from './styles';
 
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
 const HomeScreen = ({ route }) => {
   
   return (
