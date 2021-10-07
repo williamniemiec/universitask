@@ -1,18 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Alert } from 'react-native';
-import {
-  Flex,
-  Button,
-  Select,
-  CheckIcon,
-  Modal,
-  FormControl
-} from 'native-base';
+import { Flex, Button } from 'native-base';
 import colors from '../../colors';
 import { useDispatch, useSelector } from 'react-redux';
-import PrimaryButton from '../../components/PrimaryButton';
-import SecondaryButton from '../../components/buttons/SecondaryButton';
-import ColorPicker from 'react-native-wheel-color-picker'
 import { useNavigation } from '@react-navigation/native';
 import UpdateRemoveCourseModal from './UpdateRemoveCourseModal';
 
@@ -33,6 +23,23 @@ function ConfigScreen() {
       color: '#ccc'
     }]
 
+  function handleRemoveCourse() {
+    Alert.alert(
+      "Warning: destructive action",
+      "Are you sure you want to remove this course? All tasks associated with this course will also be removed!",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel"
+        },
+        {
+          text: "YES", 
+          onPress: () =>removeCourse()
+        }
+      ]
+    ); 
+  }
   
   function removeCourse() {
     dispatch({
@@ -52,24 +59,6 @@ function ConfigScreen() {
     color.current = colors.secondary;
   }
 
-  function handleRemoveCourse() {
-    Alert.alert(
-      "Warning: destructive action",
-      "Are you sure you want to remove this course? All tasks associated with this course will also be removed!",
-      [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel"
-        },
-        {
-          text: "YES", 
-          onPress: () =>removeCourse()
-        }
-      ]
-    ); 
-  }
-
   function handleUpdateCourse() {
     dispatch({
       type: 'UPDATE_COURSE',
@@ -84,13 +73,7 @@ function ConfigScreen() {
 
     navigation.navigate('ConfigScreen');
   }
-
-  function getCourseColor(id) {
-    const c = courses.find(c => c.id == id);
-
-    return c ? c.color : '#cccccc';
-  }
-
+  
   function handleRemoveAllMonthTasks() {
     Alert.alert(
       "Warning: destructive action",
@@ -169,50 +152,6 @@ function ConfigScreen() {
     ); 
   }
 
-  const UpdateRemoveCourseButton = ({ onPress }) => (
-    <Button 
-      backgroundColor={colors.primary} 
-      width='90%' 
-      marginTop={5}
-      onPress={onPress}
-    >
-      UPDATE / REMOVE COURSE
-    </Button> 
-  );
-
-  const RemoveAllMonthTasksButton = ({ onPress }) => (
-  <Button 
-      backgroundColor={colors.primary} 
-      width='90%' 
-      marginTop={5}
-      onPress={onPress}
-    >
-      REMOVE ALL MONTH TASKS
-    </Button>
-  );
-
-  const RemoveAllSemesterTasksButton = ({ onPress }) => (
-  <Button 
-      backgroundColor={colors.primary} 
-      width='90%' 
-      marginTop={5}
-      onPress={onPress}
-    >
-      REMOVE ALL SEMESTER TASKS
-    </Button>
-  );
-
-  const ResetButton = ({ onPress }) => (
-    <Button 
-      backgroundColor={colors.primary} 
-      width='90%' 
-      marginTop={5}
-      onPress={onPress}
-    >
-      RESET
-    </Button> 
-  );
-
   return (
     <Flex 
       flex={1} 
@@ -237,5 +176,49 @@ function ConfigScreen() {
     </Flex>
   );
 }
+
+const UpdateRemoveCourseButton = ({ onPress }) => (
+  <Button 
+    backgroundColor={colors.primary} 
+    width='90%' 
+    marginTop={5}
+    onPress={onPress}
+  >
+    UPDATE / REMOVE COURSE
+  </Button> 
+);
+
+const RemoveAllMonthTasksButton = ({ onPress }) => (
+  <Button 
+    backgroundColor={colors.primary} 
+    width='90%' 
+    marginTop={5}
+    onPress={onPress}
+  >
+    REMOVE ALL MONTH TASKS
+  </Button>
+);
+
+const RemoveAllSemesterTasksButton = ({ onPress }) => (
+  <Button 
+    backgroundColor={colors.primary} 
+    width='90%' 
+    marginTop={5}
+    onPress={onPress}
+  >
+    REMOVE ALL SEMESTER TASKS
+  </Button>
+);
+
+const ResetButton = ({ onPress }) => (
+  <Button 
+    backgroundColor={colors.primary} 
+    width='90%' 
+    marginTop={5}
+    onPress={onPress}
+  >
+    RESET
+  </Button> 
+);
 
 export default ConfigScreen;
