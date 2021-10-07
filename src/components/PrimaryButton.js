@@ -4,7 +4,7 @@ import colors from '../colors';
 
 const PrimaryButton = ({ children, ...baseProps }) => (
   <Button 
-      backgroundColor={colors.secondary}
+      backgroundColor={colors.primary}
       { ...baseProps }
     >
       {children}

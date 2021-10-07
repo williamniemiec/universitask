@@ -4,7 +4,7 @@ import colors from '../../colors';
 export default StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: colors.secondary
+    backgroundColor: colors.primary
   },
   tab: {
     justifyContent: 'center',
@@ -17,7 +17,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 100,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
     width: 100,
     borderRadius: 50,
     bottom: 15,
