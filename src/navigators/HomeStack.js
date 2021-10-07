@@ -1,13 +1,17 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import TaskScreen from '../screens/TaskScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import colors from '../colors';
 
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
 const StackNavigator = createStackNavigator();
 
-function HomeStack() {
+const HomeStack = () => {
 
   return (
     <StackNavigator.Navigator
