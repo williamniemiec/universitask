@@ -1,15 +1,17 @@
 import React from 'react';
 import Container from '../../components/template/Container';
-import { Area, Title } from './styled';
 
-function HistoryScreen() {
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
+const TaskScreen = ({ route }) => {
+  
   return (
     <Container>
-      <Area>
-        <Title>HistoryScreen</Title>
-      </Area>
+      
     </Container>
   );
 }
 
-export default HistoryScreen;
+export default TaskScreen;
