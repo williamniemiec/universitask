@@ -1,18 +1,27 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import { NativeBaseProvider } from 'native-base';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import { store, persistor } from './Store';
 import { NavigationContainer } from '@react-navigation/native';
 import MainTab from './navigators/MainTab';
 
-function App() {
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
+const App = () => {
   return (
-    <Storage>
-      <Navigation />
-    </Storage>
+    <NativeBaseProvider>
+      <Storage>
+        <Navigation />
+      </Storage>
+    </NativeBaseProvider>
   );
 }
+
+export default App;
 
 const Storage = ({ children }) => (
   <Provider store={store}>
@@ -27,5 +36,3 @@ const Navigation = ({ children }) => (
     <MainTab />
   </NavigationContainer>
 );
-
-export default App;

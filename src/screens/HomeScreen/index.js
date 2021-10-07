@@ -1,26 +1,19 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { Heading } from 'native-base';
 import Container from '../../components/template/Container';
-import ThemeButton from '../../components/ThemeButton';
-import { Area } from './styled';
+import Task from '../../components/Task';
+import styles from './styles';
 
-function HomeScreen() {
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
+const HomeScreen = ({ route }) => {
   
-  const navigation = useNavigation();
-
-  function handleConfigScreen() {
-    navigation.navigate('ConfigScreen');
-  }
-
   return (
     <Container>
-      <Area>
-        <ThemeButton 
-          title="Ir para config screen"
-          full={true}
-          onPress={handleConfigScreen}
-        />
-      </Area>
+      <Heading style={styles.title}>Tasks</Heading>
+        <Task refresh={route.params?.new}/>
     </Container>
   );
 }
