@@ -43,7 +43,7 @@ function MainStack() {
         tabBarIcon: () => buildTabBarIcon(route),
         tabBarHideOnKeyboard: true,
         headerStyle: {
-          backgroundColor: colors.secondary
+          backgroundColor: colors.primary
         },
         headerTintColor: colors.lightText
       })}

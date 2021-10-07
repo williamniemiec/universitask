@@ -14,7 +14,7 @@ function HomeStack() {
       initialRouteName="HomeScreen"
       screenOptions={{
         headerStyle: {
-          backgroundColor: colors.secondary
+          backgroundColor: colors.primary
         },
         headerTintColor: colors.lightText
       }}
