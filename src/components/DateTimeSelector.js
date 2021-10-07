@@ -7,39 +7,16 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateUtils from '../util/DateUtils';
 
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
 const DateTimeSelector = ({ dateRef, monthFirst=false, ...baseProps }) => {
 
   const [selectedDate, setSelectedDate] = useState(dateRef.current);
   const [formatedDate, setFormatedDate] = useState('');
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-
-  function openDateTimeSelector() {
-    setMode('date');
-    setShow(true);
-  }
-
-  function onChange(event, selectedDateTime) {
-    const currentDate = selectedDateTime || selectedDate;
-
-    if (Platform.OS === 'ios') {
-      setShow(false);
-      setSelectedDate(currentDate);
-      setFormatedDate(DateUtils.formatDate(selectedDate, monthFirst));
-    }
-    else {
-      setSelectedDate(currentDate);
-      setFormatedDate(DateUtils.formatDate(selectedDate, monthFirst));
-
-      if (show) 
-        setMode('time');
-
-      if (event.type == 'set' && mode === 'time') {
-        setShow(false);
-        dateRef.current = currentDate;
-      }
-    }
-  }
 
   useEffect(() => {
     setFormatedDate(DateUtils.formatDate(dateRef.current, monthFirst));
@@ -59,21 +36,74 @@ const DateTimeSelector = ({ dateRef, monthFirst=false, ...baseProps }) => {
           marginBottom: 20
         }}
         showSoftInputOnFocus={false}
-        onTouchEnd={() => openDateTimeSelector()}
+        onTouchEnd={() => openDateTimeSelector(setMode, setShow)}
       />
-
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={selectedDate}
-          mode={mode}
-          is24Hour={true}
-          display='default'
-          onChange={onChange}
-        />
-      )}
+      <DateTimePickerModal 
+        show={show}
+        selectedDate={selectedDate} 
+        dateRef={dateRef} 
+        setShow={setShow} 
+        setSelectedDate={setSelectedDate} 
+        setFormatedDate={setFormatedDate} 
+        setMode={setMode} 
+        monthFirst={monthFirst} 
+        mode={mode}
+      />
     </Flex>
   );
 }
 
 export default DateTimeSelector;
+
+const DateTimePickerModal = ({ 
+  show, selectedDate, dateRef, setShow, setSelectedDate, setFormatedDate, 
+  setMode, monthFirst, mode 
+}) => {
+  if (!show)
+    return <></>;
+
+  return (
+    <DateTimePicker
+      testID="dateTimePicker"
+      value={selectedDate}
+      mode={mode}
+      is24Hour={true}
+      display='default'
+      onChange={(event, selection) => onChange(event, selection, selectedDate, 
+                                               dateRef, show, setShow, setSelectedDate, 
+                                               setFormatedDate, setMode, monthFirst, mode)}
+    />
+  );
+}
+
+
+//-----------------------------------------------------------------------------
+//		Functions
+//-----------------------------------------------------------------------------
+function openDateTimeSelector(setMode, setShow) {
+  setMode('date');
+  setShow(true);
+}
+
+function onChange(event, selectedDateTime, selectedDate, dateRef, show, setShow, 
+                  setSelectedDate, setFormatedDate, setMode, monthFirst, mode) {
+  const currentDate = selectedDateTime || selectedDate;
+
+  if (Platform.OS === 'ios') {
+    setShow(false);
+    setSelectedDate(currentDate);
+    setFormatedDate(DateUtils.formatDate(selectedDate, monthFirst));
+  }
+  else {
+    setSelectedDate(currentDate);
+    setFormatedDate(DateUtils.formatDate(selectedDate, monthFirst));
+
+    if (show) 
+      setMode('time');
+
+    if (event.type == 'set' && mode === 'time') {
+      setShow(false);
+      dateRef.current = currentDate;
+    }
+  }
+}
