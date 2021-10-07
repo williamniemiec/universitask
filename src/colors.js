@@ -1,6 +1,8 @@
 export default {
-  primary: '#1F1F1F',
-  secondary: '#A200C5',
+  primary: '#A200C5',
+  secondary: '#1F1F1F',
+  danger: '#F90233',
   lightText: '#FFFFFF',
-  focused: '#CCCCCC'
+  focused: '#CCCCCC',
+  blur: '#CCCCCC'
 }
