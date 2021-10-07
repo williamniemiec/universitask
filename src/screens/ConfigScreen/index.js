@@ -15,9 +15,9 @@ const ConfigScreen = () => {
   const [course, setCourse] = useState('');
   const [showModal, setShowModal] = useState(false);
 
-  const navigation = useNavigation();
-  const color = useRef(colors.secondary);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const color = useRef(colors.blur);
   let courses = useSelector(state => state.UserReducer.courses);
 
   if (!courses) {
@@ -127,37 +127,45 @@ function handleRemoveCourse(dispatch, setShowModal, navigation, course,
 
 function removeCourse(dispatch, setShowModal, navigation, course, setCourse, 
                       colorRef) {
+  removePersistedCourse(dispatch, course);
+  setShowModal(false);
+  clearFields(setCourse, colorRef);
+  goToHomeScreen(navigation);
+}
+
+function removePersistedCourse(dispatch, courseId) {
   dispatch({
     type: 'REMOVE_COURSE',
     payload: {
-      id: course
+      id: courseId
     }
   });
-
-  setShowModal(false);
-  clearFields(setCourse, colorRef);
-  navigation.navigate('HomeScreen', { new: true })
 }
 
 function clearFields(setCourse, colorRef) {
   setCourse('');
-  colorRef.current = colors.secondary;
+  colorRef.current = colors.blur;
+}
+
+function goToHomeScreen(navigation) {
+  navigation.navigate('HomeScreen', { new: true });
 }
 
 function handleUpdateCourse(dispatch, setShowModal, navigation, course, 
                             setCourse, colorRef) {
+  updatePersistedCourse(dispatch, course, colorRef);
+  setShowModal(false);
+  clearFields(setCourse, colorRef);
+}
+
+function updatePersistedCourse(dispatch, courseId, colorRef) {
   dispatch({
     type: 'UPDATE_COURSE',
     payload: {
-      id: course,
+      id: courseId,
       color: colorRef.current
     }
   });
-
-  setShowModal(false);
-  clearFields(setCourse, colorRef);
-
-  navigation.navigate('ConfigScreen');
 }
 
 function handleRemoveAllMonthTasks(dispatch, navigation) {
@@ -178,11 +186,14 @@ function handleRemoveAllMonthTasks(dispatch, navigation) {
 }
 
 function resetMonthTasks(dispatch, navigation) {
+  removePersistedTasksFromCurrentMonth(dispatch);
+  goToHomeScreen(navigation);
+}
+
+function removePersistedTasksFromCurrentMonth(dispatch) {
   dispatch({
     type: 'RESET_TASKS_MONTH'
   });
-
-  navigation.navigate('HomeScreen', { new: true });
 }
 
 function handleRemoveAllSemesterTasks(dispatch, navigation) {
@@ -203,11 +214,14 @@ function handleRemoveAllSemesterTasks(dispatch, navigation) {
 }
 
 function resetSemesterTasks(dispatch, navigation) {
+  removePersistedTasksFromCurrentSemester(dispatch);
+  goToHomeScreen(navigation);
+}
+
+function removePersistedTasksFromCurrentSemester(dispatch) {
   dispatch({
     type: 'RESET_TASKS_SEMESTER'
   });
-
-  navigation.navigate('HomeScreen', { new: true });
 }
 
 function handleReset(dispatch, navigation) {
@@ -228,9 +242,12 @@ function handleReset(dispatch, navigation) {
 }
 
 function reset(dispatch, navigation) {
+  removeAllPersistedTasks(dispatch);
+  goToHomeScreen(navigation);
+}
+
+function removeAllPersistedTasks(dispatch) {
   dispatch({
     type: 'RESET'
   });
-
-  navigation.navigate('HomeScreen', { new: true });
 }
