@@ -78,7 +78,7 @@ const TaskList = ({ tasks, setTasks }) => {
 
   const RemoveTaskIcon = () => (
     <Flex
-      maxHeight={86}
+      maxHeight={88}
       backgroundColor='#f90233'
       alignItems='center'
       flex={1}
@@ -102,7 +102,7 @@ const TaskList = ({ tasks, setTasks }) => {
     <Pressable onPress={handleTaskSelection} height={86} marginBottom={30}>
       <Box
         borderWidth={1}
-        borderColor='#707070'
+        borderColor={data.item.dateEnd <= new Date() ? '#f90233' : '#707070'}
         backgroundColor='#FFFFFF'
         flexDirection='row'
         justifyContent='space-between'
