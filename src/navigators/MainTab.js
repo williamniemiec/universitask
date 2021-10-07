@@ -6,40 +6,26 @@ import ConfigScreen from '../screens/ConfigScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import CustomTabBar from '../components/CustomTabBar';
+import colors from '../colors';
 
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
 const TabNavigator = createBottomTabNavigator();
 
-function buildTabBarIcon(route) {
-  let img = null;
-  
-  switch (route.name) {
-    case 'HistoryScreen':
-      img = require('../assets/img/icon/history.png');
-      break;
-    case 'CreateTaskScreen':
-      img = require('../assets/img/icon/add.png');
-      break;
-    case 'HomeStack':
-      img = require('../assets/img/icon/home.png');
-      break;
-    case 'ConfigScreen':
-      img = require('../assets/img/icon/config.png');
-      break;
-  }
-
-  return <Image 
-    source={img}
-    style={{width: 24, height: 24}}
-  />
-}
-
-function MainStack() {
+const MainStack = () => {
   return (
     <TabNavigator.Navigator
       initialRouteName="HomeStack"
       tabBar={(props) => <CustomTabBar { ...props } />}
       screenOptions={({route}) => ({
-        tabBarIcon: () => buildTabBarIcon(route)
+        tabBarIcon: () => buildTabBarIcon(route),
+        tabBarHideOnKeyboard: true,
+        headerStyle: {
+          backgroundColor: colors.primary
+        },
+        headerTintColor: colors.lightText
       })}
     >
       <TabNavigator.Screen 
@@ -75,3 +61,31 @@ function MainStack() {
 }
 
 export default MainStack;
+
+
+//-----------------------------------------------------------------------------
+//		Functions
+//-----------------------------------------------------------------------------
+function buildTabBarIcon(route) {
+  let img = null;
+  
+  switch (route.name) {
+    case 'HistoryScreen':
+      img = require('../assets/img/icon/history.png');
+      break;
+    case 'CreateTaskScreen':
+      img = require('../assets/img/icon/add.png');
+      break;
+    case 'HomeStack':
+      img = require('../assets/img/icon/home.png');
+      break;
+    case 'ConfigScreen':
+      img = require('../assets/img/icon/config.png');
+      break;
+  }
+
+  return <Image 
+    source={img}
+    style={{width: 24, height: 24}}
+  />
+}
