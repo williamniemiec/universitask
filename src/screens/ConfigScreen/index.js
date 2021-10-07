@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Alert } from 'react-native';
 import {
   Flex,
-  Input, 
   Button,
   Select,
   CheckIcon,
@@ -10,7 +9,6 @@ import {
   FormControl
 } from 'native-base';
 import colors from '../../colors';
-import PlusButton from '../../components/buttons/PlusButton';
 import { useDispatch, useSelector } from 'react-redux';
 import PrimaryButton from '../../components/PrimaryButton';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
@@ -23,6 +21,7 @@ function ConfigScreen() {
   const [showModal, setShowModal] = useState(false);
 
   const navigation = useNavigation();
+  const color = useRef(colors.secondary);
   const dispatch = useDispatch();
   let courses = useSelector(state => state.UserReducer.courses);
 
@@ -33,10 +32,7 @@ function ConfigScreen() {
       color: '#ccc'
     }]
 
-  const colorPicker = useRef(null);
-  const color = useRef(colors.secondary);
-  const borderColorRef = useRef('#cccccc');
-
+  
   function removeCourse() {
     dispatch({
       type: 'REMOVE_COURSE',
@@ -52,7 +48,6 @@ function ConfigScreen() {
 
   function clearFields() {
     setCourse('');
-    borderColorRef.current = '#cccccc';
     color.current = colors.secondary;
   }
 
@@ -173,6 +168,138 @@ function ConfigScreen() {
     ); 
   }
 
+  const UpdateRemoveCourseButton = ({ onPress }) => (
+    <Button 
+      backgroundColor={colors.primary} 
+      width='90%' 
+      marginTop={5}
+      onPress={onPress}
+    >
+      UPDATE / REMOVE COURSE
+    </Button> 
+  );
+
+  const RemoveAllMonthTasksButton = ({ onPress }) => (
+  <Button 
+      backgroundColor={colors.primary} 
+      width='90%' 
+      marginTop={5}
+      onPress={onPress}
+    >
+      REMOVE ALL MONTH TASKS
+    </Button>
+  );
+
+  const RemoveAllSemesterTasksButton = ({ onPress }) => (
+  <Button 
+      backgroundColor={colors.primary} 
+      width='90%' 
+      marginTop={5}
+      onPress={onPress}
+    >
+      REMOVE ALL SEMESTER TASKS
+    </Button>
+  );
+
+  const ResetButton = ({ onPress }) => (
+    <Button 
+      backgroundColor={colors.primary} 
+      width='90%' 
+      marginTop={5}
+      onPress={onPress}
+    >
+      RESET
+    </Button> 
+  );
+
+  const UpdateRemoveCourseModal = ({ show, onClose, courses, selectedCourse, setSelectedCourse, onRemoveCourse, onUpdateCourse, colorRef }) => {
+    
+    const colorPicker = useRef(null);
+
+    return (
+      <Modal isOpen={show} onClose={onClose}>
+        <Modal.Content maxWidth="400px">
+          <Modal.CloseButton />
+          <UpdateRemoveCourseModalHeader />
+          <UpdateRemoveCourseModalBody 
+            courses={courses} 
+            selectedCourse={selectedCourse} 
+            setSelectedCourse={setSelectedCourse} 
+            onRemoveCourse={onRemoveCourse} 
+            onUpdateCourse={onUpdateCourse} 
+            colorRef={colorRef}
+            colorPicker={colorPicker}
+          />
+          <UpdateRemoveCourseModalFooter onRemoveCourse={onRemoveCourse} onUpdateCourse={onUpdateCourse} />
+        </Modal.Content>
+      </Modal>
+    );
+  }
+
+  const UpdateRemoveCourseModalHeader = () => (
+    <Modal.Header>
+      Update / remove course
+    </Modal.Header>
+  );
+
+  const UpdateRemoveCourseModalBody = ({ courses, selectedCourse, setSelectedCourse, onRemoveCourse, onUpdateCourse, colorRef, colorPicker }) => (
+    <Modal.Body>
+      <FormControl>
+        <FormControl.Label>Course</FormControl.Label>
+        <Select
+          selectedValue={selectedCourse}
+          minWidth="200"
+          width='100%'
+          accessibilityLabel="Choose course"
+          placeholder="Course"
+          _selectedItem={{
+            bg: colors.primary,
+            endIcon: <CheckIcon size="5" />
+          }}
+          style={{
+            backgroundColor: 'white',
+          }}
+          borderStyle='solid'
+          borderWidth={1}
+          borderLeftRadius={5}
+          borderRightRadius={0}
+          borderColor={colorRef.current}
+          borderLeftWidth={10}
+          mb={5}
+          onValueChange={(itemValue) => {
+            setSelectedCourse(itemValue); 
+            colorRef.current = getCourseColor(itemValue); 
+          }}
+        >
+          {courses.map((c, index) => (
+            <Select.Item key={c.id} label={c.name} value={c.id} />  
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl mt="3">
+        <FormControl.Label>Color</FormControl.Label>
+        <ColorPicker
+          ref={colorPicker}
+          color={colorRef.current}
+          onColorChange={newColor => colorRef.current = newColor}
+        />
+      </FormControl>
+    </Modal.Body>
+  );
+
+  const UpdateRemoveCourseModalFooter = ({ onRemoveCourse, onUpdateCourse })=> (
+    <Modal.Footer>
+      <Button.Group space={2}>
+        <SecondaryButton onPress={onRemoveCourse}>
+          Remove
+        </SecondaryButton>
+        <PrimaryButton onPress={onUpdateCourse}>
+          UPDATE
+        </PrimaryButton>
+      </Button.Group>
+    </Modal.Footer>
+  );
+
   return (
     <Flex 
       flex={1} 
@@ -180,93 +307,20 @@ function ConfigScreen() {
       paddingTop={5} 
       style={{backgroundColor: 'white'}}
     >
-      <Button 
-        backgroundColor={colors.secondary} 
-        width='90%' 
-        marginTop={5}
-        onPress={() => setShowModal(true)}
-      >
-        UPDATE / REMOVE COURSE
-      </Button> 
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <Modal.Content maxWidth="400px">
-          <Modal.CloseButton />
-          <Modal.Header>Update / remove course</Modal.Header>
-          <Modal.Body>
-            <FormControl>
-              <FormControl.Label>Course</FormControl.Label>
-              <Select
-                selectedValue={course}
-                minWidth="200"
-                width='100%'
-                accessibilityLabel="Choose course"
-                placeholder="Course"
-                _selectedItem={{
-                  bg: colors.secondary,
-                  endIcon: <CheckIcon size="5" />
-                }}
-                style={{
-                  backgroundColor: 'white',
-                }}
-                borderStyle='solid'
-                borderWidth={1}
-                borderLeftRadius={5}
-                borderRightRadius={0}
-                borderColor={borderColorRef.current}
-                borderLeftWidth={10}
-                mb={5}
-                onValueChange={(itemValue) => {setCourse(itemValue); borderColorRef.current = getCourseColor(itemValue); color.current = borderColorRef.current;}}
-              >
-                {courses.map((c, index) => (
-                  <Select.Item key={c.id} label={c.name} value={c.id} />  
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl mt="3">
-              <FormControl.Label>Color</FormControl.Label>
-              <ColorPicker
-                ref={colorPicker}
-                color={color.current}
-                onColorChange={newColor => color.current = newColor}
-              />
-            </FormControl>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button.Group space={2}>
-              <SecondaryButton onPress={handleRemoveCourse}>
-                Remove
-              </SecondaryButton>
-              <PrimaryButton onPress={handleUpdateCourse}>
-                UPDATE
-              </PrimaryButton>
-            </Button.Group>
-          </Modal.Footer>
-        </Modal.Content>
-      </Modal>
-      <Button 
-        backgroundColor={colors.secondary} 
-        width='90%' 
-        marginTop={5}
-        onPress={handleRemoveAllMonthTasks}
-      >
-        REMOVE ALL MONTH TASKS
-      </Button>
-      <Button 
-        backgroundColor={colors.secondary} 
-        width='90%' 
-        marginTop={5}
-        onPress={handleRemoveAllSemesterTasks}
-      >
-        REMOVE ALL SEMESTER TASKS
-      </Button>
-      <Button 
-        backgroundColor={colors.secondary} 
-        width='90%' 
-        marginTop={5}
-        onPress={handleReset}
-      >
-        RESET
-      </Button> 
+      <UpdateRemoveCourseButton onPress={() => setShowModal(true)} />
+      <UpdateRemoveCourseModal 
+        show={showModal} 
+        onClose={() => setShowModal(false)}
+        courses={courses} 
+        selectedCourse={course} 
+        setSelectedCourse={setCourse} 
+        onRemoveCourse={handleRemoveCourse} 
+        onUpdateCourse={handleUpdateCourse} 
+        colorRef={color}
+      />
+      <RemoveAllMonthTasksButton onPress={handleRemoveAllMonthTasks} />
+      <RemoveAllSemesterTasksButton onPress={handleRemoveAllSemesterTasks} />
+      <ResetButton onPress={handleReset} />
     </Flex>
   );
 }

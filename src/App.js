@@ -7,7 +7,7 @@ import { store, persistor } from './Store';
 import { NavigationContainer } from '@react-navigation/native';
 import MainTab from './navigators/MainTab';
 
-function App() {
+const App = () => {
   return (
     <NativeBaseProvider>
       <Storage>

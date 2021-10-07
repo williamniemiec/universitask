@@ -1,20 +1,14 @@
-import React, { useLayoutEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { Heading } from 'native-base';
 import Container from '../../components/template/Container';
 import Task from '../../components/Task';
-import { Area, Title } from './styled';
+import styles from './styles';
 
-function HomeScreen({ route }) {
+const HomeScreen = ({ route }) => {
   
-  const navigation = useNavigation();
-
-  function handleConfigScreen() {
-    navigation.navigate('ConfigScreen');
-  }
-
   return (
     <Container>
-      <Title>Tasks</Title>
+      <Heading style={styles.title}>Tasks</Heading>
         <Task refresh={route.params?.new}/>
     </Container>
   );
