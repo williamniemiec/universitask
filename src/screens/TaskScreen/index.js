@@ -5,7 +5,7 @@ import Container from '../../components/template/Container';
 //-----------------------------------------------------------------------------
 //		Components
 //-----------------------------------------------------------------------------
-const HistoryScreen = ({ route }) => {
+const TaskScreen = ({ route }) => {
   
   return (
     <Container>
@@ -14,4 +14,4 @@ const HistoryScreen = ({ route }) => {
   );
 }
 
-export default HistoryScreen;
+export default TaskScreen;
