@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --silent",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -51,6 +51,11 @@
     "react-test-renderer": "17.0.2"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": ["./jestSetupFile.js", "./node_modules/react-native-gesture-handler/jestSetup.js"],
+    
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(@react-native|react-native|@react-navigation|react-native-swipe-list-view|react-native-expo-viewport-units|react-native-gesture-handler|react-native-reanimated|react-native-wheel-color-picker|@react-native-community/datetimepicker|@react-native-async-storage/async-storage|redux-persist)/).*/"
+    ]
   }
 }
