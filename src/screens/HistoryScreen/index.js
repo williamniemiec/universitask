@@ -4,6 +4,7 @@ import Container from '../../components/template/Container';
 import {
   Heading,
 } from 'native-base';
+import styles from './styles';
 import { TasksPieChart } from './TasksPieChart';
 import { TasksBarChart } from './TasksBarChart';
 import { mockTasks } from './mockData';
@@ -21,7 +22,7 @@ const HistoryScreen = ({ route }) => {
 
   return (
     <Container>
-      <Heading>This Semester</Heading>
+      <Heading style={styles.title}>This Semester</Heading>
       <TasksPieChart tasks={mockTasks}/>
       <TasksBarChart tasks={mockTasks}/>
     </Container>
