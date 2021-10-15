@@ -5,6 +5,8 @@ import {
   Heading,
 } from 'native-base';
 import { PieChart } from './PieChart';
+import { TasksBarChart } from './TasksBarChart';
+import { mockTasks } from './mockData';
 
 //-----------------------------------------------------------------------------
 //		Components
@@ -21,6 +23,7 @@ const HistoryScreen = ({ route }) => {
     <Container>
       <Heading>This Semester</Heading>
       <PieChart data={getPieChartData([])} accessor="count"/>
+      <TasksBarChart tasks={mockTasks}/>
     </Container>
   );
 }
