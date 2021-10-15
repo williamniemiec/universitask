@@ -5,28 +5,23 @@ import {
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 
-// const chartConfig = {
-//     backgroundColor: "#e26a00",
-//     backgroundGradientFrom: "#fb8c00",
-//     backgroundGradientTo: "#ffa726",
-//     decimalPlaces: 2, // optional, defaults to 2dp
-//     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-//     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-//     style: {
-//         borderRadius: 16
-//     },
-//     propsForDots: {
-//         r: "6",
-//         strokeWidth: "2",
-//         stroke: "#ffa726"
-//     }
-// }
-
 const chartConfig = {
     backgroundColor: '#ffffff',
     backgroundGradientFrom: '#ffffff',
     backgroundGradientTo: '#ffffff',
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    style: {
+        borderRadius: 16,
+    },
+    propsForBackgroundLines: {
+        strokeWidth: 1,
+        strokeDashoffset: 10,
+        strokeOpacity: 0.50,
+        strokeDasharray: [10]
+    },
+    propsForHorizontalLabels: {
+        fontSize: 15
+    },
 }
   
 const graphStyle = {
@@ -42,9 +37,11 @@ export function TasksBarChart({tasks}) {
         <StackedBarChart
             style={graphStyle}
             data={dataFromTasks(tasks)}
-            width={screenWidth}
+            width={screenWidth * 0.9}
             height={height}
             chartConfig={chartConfig}
+            showLegend={false}
+            decimalPlaces={0}
         />
     )
 }
@@ -128,8 +125,7 @@ function dataFromTasks(tasks) {
 
     return {
         labels: monthsNames,
-        legend: coursesNames,
         data: tasksData,
-        barColors: coursesColors//["#dfe4ea", "#ced6e0", "#a4b0be", "#dfe4ea", "#ced6e0", "#a4b0be"]
+        barColors: coursesColors
     }
 }
