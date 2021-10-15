@@ -1,38 +1,10 @@
 import React from 'react';
 import Container from '../../components/template/Container';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import {
   Heading,
 } from 'native-base';
-import {
-  PieChart,
-} from 'react-native-chart-kit'
-import { Dimensions } from "react-native";
-const screenWidth = Dimensions.get("window").width;
-
-const chartConfig = {
-  backgroundColor: "#e26a00",
-  backgroundGradientFrom: "#fb8c00",
-  backgroundGradientTo: "#ffa726",
-  decimalPlaces: 2, // optional, defaults to 2dp
-  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  style: {
-    borderRadius: 16
-  },
-  propsForDots: {
-    r: "6",
-    strokeWidth: "2",
-    stroke: "#ffa726"
-  }
-}
-
-const graphStyle = {
-  marginVertical: 8,
-  ...chartConfig.style
-}
-
-const height = 220;
+import { PieChart } from './PieChart';
 
 //-----------------------------------------------------------------------------
 //		Components
@@ -48,14 +20,7 @@ const HistoryScreen = ({ route }) => {
   return (
     <Container>
       <Heading>This Semester</Heading>
-      <PieChart
-      data={getPieChartData([])}
-      height={height}
-      width={screenWidth}
-      chartConfig={chartConfig}
-      accessor="count"
-      style={graphStyle}
-      />
+      <PieChart data={getPieChartData([])} accessor="count"/>
     </Container>
   );
 }
@@ -83,7 +48,7 @@ function getPieChartData(persistedTasks) {
   let courses = courseNumbers.map(i => {
     return {
       id: i,
-      name: `Course + ${i}`,
+      name: `Course ${i}`,
       color: courseColors[i % courseColors.length],
     }
   })
@@ -91,7 +56,7 @@ function getPieChartData(persistedTasks) {
   let tasks = taskNumbers.map(i => {
     return {
       id: i,
-      name: `task + ${i}`,
+      name: `task ${i}`,
       course: courses[i % courseNumbers.length],
     }
   })
