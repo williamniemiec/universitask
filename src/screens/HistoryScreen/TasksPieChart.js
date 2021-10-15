@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    PieChart as ChartKitPieChart,
+    PieChart,
 } from 'react-native-chart-kit'
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
@@ -29,15 +29,37 @@ const graphStyle = {
 
 const height = 220;
 
-export function PieChart({data, accessor}) {
+export function TasksPieChart({tasks}) {
     return (
-        <ChartKitPieChart
-        data={data}
+        <PieChart
+        data={dataFromTasks(tasks)}
         height={height}
         width={screenWidth}
         chartConfig={chartConfig}
-        accessor={accessor}
+        accessor={"count"}
         style={graphStyle}
         />
     )
+}
+
+function dataFromTasks(tasks) {      
+    let coursesOccurrences = {}
+    let coursesByName = {}
+    for (let task of tasks) {
+        let courseName = task.course.name
+        coursesOccurrences[courseName] = courseName in coursesOccurrences ? coursesOccurrences[courseName] + 1 : 1;
+        coursesByName[courseName] = task.course
+    }
+
+    let legendFontColor = "#000"
+    let courses = Object.values(coursesByName)
+    return courses.map(course => {
+        return {
+            name: course.name,
+            count: coursesOccurrences[course.name],
+            color: course.color,
+            legendFontColor: legendFontColor,
+            legendFontSize: 15,
+        }
+    })
 }
