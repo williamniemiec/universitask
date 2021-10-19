@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from '../../components/template/Container';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
-  Heading,
+  Heading, ScrollView,
 } from 'native-base';
 import styles from './styles';
 import { TasksPieChart } from './TasksPieChart';
 import { TasksBarChart } from './TasksBarChart';
+import NoTasksMessage from '../../components/Task/NoTasksMessage';
 import { mockTasks } from './mockData';
 
 //-----------------------------------------------------------------------------
@@ -14,17 +15,28 @@ import { mockTasks } from './mockData';
 //-----------------------------------------------------------------------------
 const HistoryScreen = ({ route }) => {
 
-  // const persistedCourses = useSelector(state => state.UserReducer.courses);
-  // const persistedTasks = useSelector(state => state.UserReducer.tasks);  
-  
-  // const coursesView = getCoursesView(persistedCourses, persistedTasks);
-  // const deadlines = getDeadlines(persistedTasks);
+  const persistedCourses = useSelector(state => state.UserReducer.courses);
+  const persistedTasks = useSelector(state => state.UserReducer.tasks);
+  const [tasks, setTasks] = useState([]);
+
+  if (persistedTasks.length === 0) {
+    return <NoTasksMessage />;
+  }
+  //const coursesView = getCoursesView(persistedCourses, persistedTasks);
+  //const deadlines = getDeadlines(persistedTasks);
+
+
+  useEffect(() => {
+    setTasks(getTasksWithCoursesName(persistedTasks, persistedCourses));
+  }, [persistedTasks]);
 
   return (
     <Container>
-      <Heading style={styles.title}>This Semester</Heading>
-      <TasksPieChart tasks={mockTasks}/>
-      <TasksBarChart tasks={mockTasks}/>
+      <ScrollView>
+        <Heading style={styles.title}>This Semester</Heading>
+        {tasks.length > 0 && <TasksPieChart tasks={tasks} />}
+        {tasks.length > 0 && <TasksBarChart tasks={tasks} />}
+      </ScrollView>
     </Container>
   );
 }
@@ -40,8 +52,27 @@ function getCoursesView(persistedCourses, persistedTasks) {
 
   for (let course of persistedCourses) {
     let totalTasks = persistedTasks.filter(t => t.course == course.id).length;
-    coursesView.push({name: course.name, total: totalTasks});
+    coursesView.push({ name: course.name, total: totalTasks });
   }
 
   return coursesView
+}
+
+function getTasksWithCoursesName(tasks, courses) {
+  let tasksWithCourseName = [];
+
+  for (let task of tasks) {
+    let viewTask = task;
+    viewTask.course = getCourseNameWithId(viewTask.course, courses);
+    viewTask.dateBegin = new Date(viewTask.dateBegin);
+    viewTask.dateEnd = new Date(viewTask.dateEnd);
+    if (viewTask.course !== undefined)
+      tasksWithCourseName.push(viewTask);
+  }
+
+  return tasksWithCourseName;
+}
+
+function getCourseNameWithId(id, courses) {
+  return courses.filter(course => course.id == id)[0]
 }
