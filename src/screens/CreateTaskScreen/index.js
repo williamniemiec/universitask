@@ -230,12 +230,12 @@ function handleNewTask(course, name, dateBeginRef, dateEndRef, dispatch,
     return;
   }
 
-  if (taskStartsAfterDeadline(dateBegin, dateEnd)) {
+  if (taskStartsAfterDeadline(dateBeginRef, dateEndRef)) {
     displayInvalidDateAlert();
     return;
   }
 
-  persistTask(dispatch, name, course, dateBegin, dateEnd);
+  persistTask(dispatch, name, course, dateBeginRef, dateEndRef);
   clearFields(setName, setCourse, setCourseName, colorRef, dateBeginRef, dateEndRef);
   goToHomeScreen(navigation);
 }
