@@ -42,6 +42,7 @@ export function TasksBarChart({tasks}) {
             chartConfig={chartConfig}
             showLegend={false}
             decimalPlaces={0}
+            hideLegend={true}
         />
     )
 }
