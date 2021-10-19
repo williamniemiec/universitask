@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import Container from '../../components/template/Container';
 import { useSelector } from 'react-redux';
 import {
@@ -15,20 +15,27 @@ import { mockTasks } from './mockData';
 //-----------------------------------------------------------------------------
 const HistoryScreen = ({ route }) => {
 
+  const [tasks, setTasks] = useState([]);
   const persistedCourses = useSelector(state => state.UserReducer.courses);
   const persistedTasks = useSelector(state => state.UserReducer.tasks);
-  const [tasks, setTasks] = useState([]);
-
-  if (persistedTasks.length === 0) {
-    return <NoTasksMessage />;
-  }
+  
   //const coursesView = getCoursesView(persistedCourses, persistedTasks);
   //const deadlines = getDeadlines(persistedTasks);
 
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setTasks(getTasksWithCoursesName(persistedTasks, persistedCourses));
-  }, [persistedTasks]);
+    
+    let i = setInterval(() => {
+      setTasks(getTasksWithCoursesName(persistedTasks, persistedCourses));
+    }, 2000);
+
+    return () => clearInterval(i);
+  }, []);
+
+  if (persistedTasks.length === 0) {
+    return <NoTasksMessage />;
+  }
 
   return (
     <Container>
@@ -62,7 +69,7 @@ function getTasksWithCoursesName(tasks, courses) {
   let tasksWithCourseName = [];
 
   for (let task of tasks) {
-    let viewTask = task;
+    let viewTask = { ...task};
     viewTask.course = getCourseNameWithId(viewTask.course, courses);
     viewTask.dateBegin = new Date(viewTask.dateBegin);
     viewTask.dateEnd = new Date(viewTask.dateEnd);

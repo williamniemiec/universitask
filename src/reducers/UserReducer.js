@@ -92,7 +92,7 @@ function insertCourse(payload, state) {
   if (!hasAnyPersistedCourses(state)) {
     courses = [course]
   }
-  else if (!hasPersistedCourseWithName(payload.name)){
+  else if (!hasPersistedCourseWithName(payload.name, state)){
     courses.push(course);
   }
   
