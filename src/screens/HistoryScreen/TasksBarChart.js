@@ -63,7 +63,12 @@ function tasksGroupedByMonth(tasks, monthsNames) {
     
     for (let task of tasks) {
         //  Find out in which month it was completed and update tasksForMonth
-        const monthName = task.dateEnd.toLocaleString('en-us', { month: 'short' });
+        let monthName = task.dateEnd.toLocaleString('en-us', { month: 'short' });
+
+        if (monthName.length > 3) {
+            monthName = monthName.substring(4, 7)
+        }
+
         tasksForMonth[monthName] = tasksForMonth[monthName].concat([task])
     }
 
