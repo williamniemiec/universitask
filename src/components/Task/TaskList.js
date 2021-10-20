@@ -28,8 +28,14 @@ const TaskList = ({ tasks, setTasks }) => {
   const dispatch = useDispatch();
   const courses = useSelector(state => state.UserReducer.courses);
 
-  function handleTaskSelection() {
-    navigation.navigate('TaskScreen');
+  function handleTaskSelection(task) {
+    navigation.navigate('TaskScreen', { 
+      id: task.item.id,
+      name: task.item.name, 
+      course: task.item.course, 
+      dateBegin: task.item.dateBegin, 
+      dateEnd: task.item.dateEnd 
+    });
   }
 
   function handleRefresh() {
@@ -53,7 +59,7 @@ const TaskList = ({ tasks, setTasks }) => {
       style={{flex: 1, width: '100%', height: vh(70)}}
       leftOpenValue={70}
       rightOpenValue={-70}
-      renderItem={(item, index) => <ListItem data={item} courses={courses} handleTaskSelection={handleTaskSelection} />}
+      renderItem={(item, index) => <ListItem data={item} courses={courses} handleTaskSelection={() => handleTaskSelection(item)} />}
       renderHiddenItem={({item, index}) => <RemoveTaskIcon />}
       stopLeftSwipe={80}
       stopRightSwipe={-80}
