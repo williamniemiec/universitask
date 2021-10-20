@@ -72,6 +72,7 @@ const UpdateRemoveCourseModalBody = ({
       <FormControl>
         <FormControl.Label>Course</FormControl.Label>
         <Select
+          isDisabled={courses.length == 0}
           selectedValue={selectedCourse}
           minWidth="200"
           width='100%'

@@ -118,13 +118,13 @@ function buildCourseFromPayload(payload, courseId)  {
 }
 
 function updateCourse(payload, state) {
-  if (!hasPersistedCourseWithId(payload.id))
+  if (!hasPersistedCourseWithId(payload.id, state))
     return state;
 
-  let updatedCourse = getPersistedCourseWithId(payload.id);
+  let updatedCourse = getPersistedCourseWithId(payload.id, state);
   updatedCourse.color = payload.color;
 
-  const newCourseList = getPersistedCoursesWithoutId(payload.id);
+  const newCourseList = getPersistedCoursesWithoutId(payload.id, state);
   newCourseList.push(updatedCourse);
   
   return { ...state, courses: newCourseList };
@@ -149,8 +149,8 @@ function getPersistedCoursesWithoutId(id, state) {
 }
 
 function removeCourse(payload, state) {
-  const newCourseList = getPersistedCoursesWithoutId(payload.id);
-  const newTaskList = getPersistedTasksWithoutCourseId(payload.id);
+  const newCourseList = getPersistedCoursesWithoutId(payload.id, state);
+  const newTaskList = getPersistedTasksWithoutCourseId(payload.id, state);
   
   return { ...state, tasks: newTaskList, courses: newCourseList };
 }

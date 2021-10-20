@@ -37,7 +37,11 @@ const HistoryScreen = ({ route }) => {
   }, []);
 
   if (persistedTasks.length === 0) {
-    return <NoTasksMessage />;
+    return (
+      <Container>
+        <NoTasksMessage />
+      </Container>
+    );
   }
 
   return (
