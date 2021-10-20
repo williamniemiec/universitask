@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Alert } from 'react-native';
 import {
   Flex,
@@ -25,6 +25,8 @@ const CreateTaskScreen = ({refresh}) => {
   const [course, setCourse] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [courseName, setCourseName] = useState('');
+  const [hasCourses, setHasCourses] = useState(false);
+  const [updateCourses, setUpdateCourses] = useState(false);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -41,6 +43,10 @@ const CreateTaskScreen = ({refresh}) => {
     }];
   }
 
+  useEffect(() => {
+    setHasCourses(courses.length > 0);
+  }, [updateCourses]);
+
   return (
     <Flex 
       flex={1} 
@@ -50,6 +56,7 @@ const CreateTaskScreen = ({refresh}) => {
     >
       <NameField name={name} setName={setName} />
       <CourseField 
+        hasCourses={hasCourses}
         colorRef={color} 
         courses={courses} 
         course={course} 
@@ -62,7 +69,8 @@ const CreateTaskScreen = ({refresh}) => {
         courseName={courseName} 
         setCourseName={setCourseName} 
         onCreateCourse={() => handleNewCourse(dispatch, setShowModal, setCourse, 
-                                              courseName, setCourseName, color)} 
+                                              courseName, setCourseName, color, 
+                                              setUpdateCourses)} 
         colorRef={color}
       />
       <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
@@ -103,7 +111,7 @@ const NameField = ({ name, setName }) => (
   </Flex>
 );
 
-const CourseField = ({ colorRef, courses, course, setCourse, handleNewCourse }) => {
+const CourseField = ({ colorRef, courses, course, setCourse, handleNewCourse, hasCourses }) => {
 
   function getCourseColor(id) {
     const c = courses.find(c => c.id == id);
@@ -116,6 +124,7 @@ const CourseField = ({ colorRef, courses, course, setCourse, handleNewCourse }) 
       <Heading size='xs'>Course</Heading>
       <Flex width='100%' flexDirection='row'>
       <Select
+          isDisabled={!hasCourses}
           selectedValue={course}
           minWidth="200"
           width='88%'
@@ -174,7 +183,7 @@ const EndDateField = ({ dateEnd }) => (
 //		Functions
 //-----------------------------------------------------------------------------
 function handleNewCourse(dispatch, setShowModal, setCourse, courseName, setCourseName, 
-                         colorRef) {
+                         colorRef, setUpdateCourses) {
   if (!isValidName(courseName)) {
     displayInvalidCourseNameAlert();
     return;
@@ -183,6 +192,7 @@ function handleNewCourse(dispatch, setShowModal, setCourse, courseName, setCours
   setShowModal(false);
   persistCourse(dispatch, courseName, colorRef);
   clearModalFields(setCourse, setCourseName, colorRef);
+  setUpdateCourses(true);
 }
 
 function isValidName(name) {
