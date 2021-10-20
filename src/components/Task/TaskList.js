@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { 
   Progress, 
@@ -14,19 +14,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RefreshControl } from 'react-native';
 
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
 const {vw, vh, vmin, vmax} = require('react-native-expo-viewport-units');
-
-function removeTask(id, tasks, setTasks, dispatch) {
-  dispatch({
-    type: 'REMOVE_TASK',
-    payload: {
-      id: id
-    }
-  })
-
-  const newList = tasks.filter(task => task.id !== id);
-  setTasks(newList);
-}
 
 const TaskList = ({ tasks, setTasks }) => {
 
@@ -41,60 +32,125 @@ const TaskList = ({ tasks, setTasks }) => {
     navigation.navigate('TaskScreen');
   }
 
-  function getCourseName(courseId) {
-    const course = courses.filter(c => c.id == courseId)[0];
-
-    return course ? course.name : '';
-  }
-  
-  function getCompletenessPrediction(dateBegin, dateEnd) {
-    const now = new Date().getTime();
-    
-    if (now <= dateBegin)
-      return 0.0;
-
-    if (now >= dateEnd)
-      return 1.0;
-
-    const prediction = now - dateBegin;
-
-    if (dateEnd === dateBegin)
-      return 1.0;
-
-    return Math.abs(prediction / (dateEnd - dateBegin));
-  }
-
-  function getCompletenessPredictionInDays(dateBegin, dateEnd) {
-    const now = new Date().getTime();
-
-    if (now >= dateEnd)
-      return '0d';
-      
-      const oneDay = 24 * 60 * 60 * 1000;
-      const diffDays = Math.round(Math.abs((now - dateEnd) / oneDay));
-
-    return `${diffDays}d`;
-  }
-
   function handleRefresh() {
     setVisibleTasks([]);
     setRefreshing(false);
     setTimeout(() => {
-      const orderedTasks = tasks.sort((task1, task2) => getCompletenessPrediction(task2.dateBegin, task2.dateEnd) - getCompletenessPrediction(task1.dateBegin, task1.dateEnd))
+      const orderedTasks = sortTasksByDeadline(tasks);
       setVisibleTasks(orderedTasks)
     }, 10); // Forces update
   }
 
-  const RemoveTaskIcon = () => (
-    <Flex
-      maxHeight={88}
-      backgroundColor='#f90233'
-      alignItems='center'
-      flex={1}
+  useEffect(() => {
+    handleRefresh();
+  }, []);
+
+  return (
+    <SwipeListView
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+      data={visibleTasks}
+      keyExtractor={(item) => String(item.id)}
+      style={{flex: 1, width: '100%', height: vh(70)}}
+      leftOpenValue={70}
+      rightOpenValue={-70}
+      renderItem={(item, index) => <ListItem data={item} courses={courses} handleTaskSelection={handleTaskSelection} />}
+      renderHiddenItem={({item, index}) => <RemoveTaskIcon />}
+      stopLeftSwipe={80}
+      stopRightSwipe={-80}
+      scrollEnabled={true}
+      showsVerticalScrollIndicator={true}
+      onRowOpen={(rowKey, rowMap) => {
+        const target = rowMap[rowKey].props.item
+        const idx = tasks.indexOf(target);
+
+        rowMap[rowKey].closeRow();
+
+        if (rowMap[rowKey].currentTranslateX > 0)
+          removeTask(tasks[idx].id, tasks, setTasks, dispatch);
+        else
+          markTaskAsDone(tasks[idx].id, tasks, setTasks, dispatch);
+      }}
+    />
+  );
+}
+
+export default TaskList;
+
+const ListItem = ({ data, courses, handleTaskSelection }) => (
+  <Pressable onPress={handleTaskSelection} height={86} marginBottom={30}>
+    <Box
+      borderWidth={1}
+      borderColor={data.item.dateEnd <= new Date() ? '#f90233' : '#707070'}
+      backgroundColor='#FFFFFF'
       flexDirection='row'
       justifyContent='space-between'
-      paddingLeft={5}
-      marginRight={5}
+      padding={3}
+    >
+      <LeftArea data={data} courses={courses} />
+      <RightArea data={data} />
+    </Box>
+  </Pressable>
+);
+
+const LeftArea = ({ data, courses }) => (
+  <Container>
+    <Row>
+      <Text numberOfLines={1}>{data.item.name}</Text>
+    </Row>
+    <Row>
+      <Text numberOfLines={1}>{getCourseName(data.item.course, courses)}</Text>
+    </Row>
+    <Row>
+      <Progress 
+        colorScheme="light" 
+        size="xs" 
+        marginTop={2} 
+        mb={2} 
+        value={getCompletenessPrediction(data.item.dateBegin, data.item.dateEnd) * 100} 
+      />
+    </Row>
+  </Container>
+);
+
+const Row = ({ children }) => (
+  <Box
+    width={vw(50)}
+    _text={{
+      fontSize: "sm",
+      color: "#222",
+      letterSpacing: "lg"
+    }}
+  >
+    { children }
+  </Box>
+);
+
+const RightArea = ({ data }) => (
+  <Center width={70}>
+    <Container>
+      <Text>
+        {`${(getCompletenessPrediction(data.item.dateBegin, data.item.dateEnd) * 100).toFixed(2)}% · ${getCompletenessPredictionInDays(data.item.dateBegin, data.item.dateEnd)}`}
+      </Text>
+    </Container>
+  </Center>
+);
+
+const RemoveTaskIcon = () => (
+  <Flex
+    height={88}
+    maxHeight={88}
+    backgroundColor='#000000'
+    alignItems='center'
+    flex={1}
+    flexDirection='row'
+    justifyContent='space-between'
+  >
+    <Flex 
+      height={88}
+      width={20}
+      alignItems='center'
+      justifyContent='center'
+      backgroundColor='#f90233'
     >
       <Image
         source={require('../../assets/img/icon/trash.png')}
@@ -105,89 +161,91 @@ const TaskList = ({ tasks, setTasks }) => {
         }}
       />
     </Flex>
-  );
-
-  const ListItem = ({data}) => (
-    <Pressable onPress={handleTaskSelection} height={86} marginBottom={30}>
-      <Box
-        borderWidth={1}
-        borderColor={data.item.dateEnd <= new Date() ? '#f90233' : '#707070'}
-        backgroundColor='#FFFFFF'
-        flexDirection='row'
-        justifyContent='space-between'
-        padding={3}
-      >
-        <LeftArea data={data} />
-        <RightArea data={data} />
-      </Box>
-    </Pressable>
-  );
-
-  const LeftArea = ({ data }) => (
-    <Container>
-      <Row>
-        <Text numberOfLines={1}>{data.item.name}</Text>
-      </Row>
-      <Row>
-        <Text numberOfLines={1}>{getCourseName(data.item.course)}</Text>
-      </Row>
-      <Row>
-        <Progress 
-          colorScheme="light" 
-          size="xs" 
-          marginTop={2} 
-          mb={2} 
-          value={getCompletenessPrediction(data.item.dateBegin, data.item.dateEnd) * 100} 
-        />
-      </Row>
-    </Container>
-  );
-
-  const RightArea = ({ data }) => (
-    <Center width={70}>
-      <Container>
-        <Text>
-          {`${(getCompletenessPrediction(data.item.dateBegin, data.item.dateEnd) * 100).toFixed(2)}% · ${getCompletenessPredictionInDays(data.item.dateBegin, data.item.dateEnd)}`}
-        </Text>
-      </Container>
-    </Center>
-  );
-
-  const Row = ({ children }) => (
-    <Box
-      width={vw(50)}
-      _text={{
-        fontSize: "sm",
-        color: "#222",
-        letterSpacing: "lg"
-      }}
+    <Flex 
+      height={88}
+      width={20}
+      alignItems='center'
+      justifyContent='center'
+      backgroundColor='#5ac18e'
     >
-      { children }
-    </Box>
-  );
+      <Image
+        source={require('../../assets/img/icon/check.png')}
+        alt='mask as done'
+        style={{
+          maxHeight: 40,
+          maxWidth: 40
+        }}
+      />
+    </Flex>
+  </Flex>
+);
 
-  return (
-    <SwipeListView
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-      data={visibleTasks}
-      keyExtractor={(item) => String(item.id)}
-      style={{flex: 1, width: '100%', height: vh(70)}}
-      leftOpenValue={70}
-      renderItem={(item, index) => <ListItem data={item} onPress={() => alert('DONE!')} />}
-      renderHiddenItem={({item, index}) => <RemoveTaskIcon />}
-      disableLeftSwipe={true}
-      stopLeftSwipe={80}
-      scrollEnabled={true}
-      showsVerticalScrollIndicator={true}
-      onRowOpen={(rowKey, rowMap) => {
-        const target = rowMap[rowKey].props.item
-        const idx = tasks.indexOf(target);
 
-        rowMap[rowKey].closeRow();
-        removeTask(tasks[idx].id, tasks, setTasks, dispatch);
-      }}
-    />
+//-----------------------------------------------------------------------------
+//		Functions
+//-----------------------------------------------------------------------------
+function sortTasksByDeadline(tasks) {
+  return tasks.sort((task1, task2) => 
+    getCompletenessPrediction(task2.dateBegin, task2.dateEnd) 
+    - getCompletenessPrediction(task1.dateBegin, task1.dateEnd)
   );
 }
 
-export default TaskList;
+function removeTask(id, tasks, setTasks, dispatch) {
+  dispatch({
+    type: 'REMOVE_TASK',
+    payload: {
+      id: id
+    }
+  })
+
+  const newList = tasks.filter(task => task.id !== id);
+  setTasks(newList);
+}
+
+function markTaskAsDone(id, tasks, setTasks, dispatch) {
+  dispatch({
+    type: 'MARK_AS_DONE',
+    payload: {
+      id: id
+    }
+  })
+
+  const newList = tasks.filter(task => task.id !== id);
+  setTasks(newList);
+}
+
+function getCompletenessPrediction(dateBegin, dateEnd) {
+  const now = new Date().getTime();
+  
+  if (now <= dateBegin)
+    return 0.0;
+
+  if (now >= dateEnd)
+    return 1.0;
+
+  const prediction = now - dateBegin;
+
+  if (dateEnd === dateBegin)
+    return 1.0;
+
+  return Math.abs(prediction / (dateEnd - dateBegin));
+}
+
+function getCompletenessPredictionInDays(dateBegin, dateEnd) {
+  const now = new Date().getTime();
+
+  if (now >= dateEnd)
+    return '0d';
+    
+    const oneDay = 24 * 60 * 60 * 1000;
+    const diffDays = Math.round(Math.abs((now - dateEnd) / oneDay));
+
+  return `${diffDays}d`;
+}
+
+function getCourseName(courseId, courses) {
+  const course = courses.filter(c => c.id == courseId)[0];
+
+  return course ? course.name : '';
+}
