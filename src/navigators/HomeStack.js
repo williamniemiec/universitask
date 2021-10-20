@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import TaskScreen from '../screens/TaskScreen';
+import UpdateTaskScreen from '../screens/UpdateTaskScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import colors from '../colors';
 
@@ -36,6 +37,13 @@ const HomeStack = () => {
         component={TaskScreen} 
         options={{
           title: "Task"
+        }}
+      />
+      <StackNavigator.Screen 
+        name="UpdateTaskScreen" 
+        component={UpdateTaskScreen} 
+        options={{
+          title: "Update Task"
         }}
       />
       <StackNavigator.Screen 

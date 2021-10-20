@@ -11,7 +11,7 @@ import DateUtils from '../util/DateUtils';
 //-----------------------------------------------------------------------------
 //		Components
 //-----------------------------------------------------------------------------
-const DateTimeSelector = ({ dateRef, monthFirst=false, ...baseProps }) => {
+const DateTimeSelector = ({ dateRef, monthFirst=false, isDisabled=false, ...baseProps }) => {
 
   const [selectedDate, setSelectedDate] = useState(dateRef.current);
   const [formatedDate, setFormatedDate] = useState('');
@@ -25,6 +25,7 @@ const DateTimeSelector = ({ dateRef, monthFirst=false, ...baseProps }) => {
   return (
     <Flex { ...baseProps }>
       <Input
+        isDisabled={isDisabled}
         value={formatedDate}
         w={{
           md: "50%",
@@ -48,6 +49,7 @@ const DateTimeSelector = ({ dateRef, monthFirst=false, ...baseProps }) => {
         setMode={setMode} 
         monthFirst={monthFirst} 
         mode={mode}
+        isDisabled={isDisabled}
       />
     </Flex>
   );
@@ -57,7 +59,7 @@ export default DateTimeSelector;
 
 const DateTimePickerModal = ({ 
   show, selectedDate, dateRef, setShow, setSelectedDate, setFormatedDate, 
-  setMode, monthFirst, mode 
+  setMode, monthFirst, mode, isDisabled
 }) => {
   if (!show)
     return <></>;
@@ -69,6 +71,7 @@ const DateTimePickerModal = ({
       mode={mode}
       is24Hour={true}
       display='default'
+      disabled={isDisabled}
       onChange={(event, selection) => onChange(event, selection, selectedDate, 
                                                dateRef, show, setShow, setSelectedDate, 
                                                setFormatedDate, setMode, monthFirst, mode)}
