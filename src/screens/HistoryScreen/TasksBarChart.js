@@ -37,7 +37,7 @@ export function TasksBarChart({tasks}) {
         <StackedBarChart
             style={graphStyle}
             data={dataFromTasks(tasks)}
-            width={screenWidth * 0.9}
+            width={screenWidth * 0.8}
             height={height}
             chartConfig={chartConfig}
             showLegend={false}
@@ -48,14 +48,14 @@ export function TasksBarChart({tasks}) {
 }
 
 function monthsNamesInSemester(tasks) {
-    let monthsOfTheYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+    let monthsOfTheYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     let areInFirstSemester = tasks[0].dateBegin.getMonth() <= 6
     return areInFirstSemester ? monthsOfTheYear.slice(0, 6) : monthsOfTheYear.slice(6)
 }
 
 // Given a list of tasks, returns an object where keys are months and values are tasks created/completed in the given month
 function tasksGroupedByMonth(tasks, monthsNames) {
-    let monthsOfTheYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+    let monthsOfTheYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     let validMonths = monthsOfTheYear.filter(m => monthsNames.includes(m))
     var tasksForMonth = validMonths.reduce((obj, name) => {
         obj[name] = [];
@@ -65,7 +65,7 @@ function tasksGroupedByMonth(tasks, monthsNames) {
     for (let task of tasks) {
         //  Find out in which month it was completed and update tasksForMonth
         let monthName = task.dateEnd.toLocaleString('en-us', { month: 'short' });
-
+ 
         if (monthName.length > 3) {
             monthName = monthName.substring(4, 7)
         }

@@ -104,7 +104,7 @@ const NameField = ({ name, setName }) => (
 );
 
 const CourseField = ({ colorRef, courses, course, setCourse, handleNewCourse }) => {
-    
+
   function getCourseColor(id) {
     const c = courses.find(c => c.id == id);
 
@@ -156,14 +156,14 @@ const DateRangeField = ({ dateBegin, dateEnd }) => (
 
 const BeginDateField = ({ dateBegin }) => (
   <Flex width='45%'>
-    <Heading size='xs'>Begin</Heading>
+    <Heading size='xs'>Announcement date</Heading>
     <DateTimeSelector dateRef={dateBegin} monthFirst={false} />
   </Flex>
 );
 
 const EndDateField = ({ dateEnd }) => (
   <Flex width='45%'>
-    <Heading size='xs'>End</Heading>
+    <Heading size='xs'>Due date</Heading>
     <DateTimeSelector dateRef={dateEnd} monthFirst={false} />
   </Flex>
 );

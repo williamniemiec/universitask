@@ -49,9 +49,16 @@ const TaskList = ({ tasks, setTasks }) => {
   
   function getCompletenessPrediction(dateBegin, dateEnd) {
     const now = new Date().getTime();
+    
+    if (now <= dateBegin)
+      return 0.0;
+
+    if (now >= dateEnd)
+      return 1.0;
+
     const prediction = now - dateBegin;
 
-    if (prediction >= dateEnd || (dateEnd === dateBegin))
+    if (dateEnd === dateBegin)
       return 1.0;
 
     return Math.abs(prediction / (dateEnd - dateBegin));
@@ -59,9 +66,8 @@ const TaskList = ({ tasks, setTasks }) => {
 
   function getCompletenessPredictionInDays(dateBegin, dateEnd) {
     const now = new Date().getTime();
-    const prediction = now - dateBegin;
 
-    if (prediction >= dateEnd)
+    if (now >= dateEnd)
       return '0d';
       
       const oneDay = 24 * 60 * 60 * 1000;
@@ -73,7 +79,10 @@ const TaskList = ({ tasks, setTasks }) => {
   function handleRefresh() {
     setVisibleTasks([]);
     setRefreshing(false);
-    setTimeout(() => setVisibleTasks(tasks), 10); // Forces update
+    setTimeout(() => {
+      const orderedTasks = tasks.sort((task1, task2) => getCompletenessPrediction(task2.dateBegin, task2.dateEnd) - getCompletenessPrediction(task1.dateBegin, task1.dateEnd))
+      setVisibleTasks(orderedTasks)
+    }, 10); // Forces update
   }
 
   const RemoveTaskIcon = () => (
