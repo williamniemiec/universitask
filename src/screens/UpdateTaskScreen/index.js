@@ -38,14 +38,6 @@ const UpdateTaskScreen = ({ route, refresh }) => {
   
   let courses = useSelector(state => state.UserReducer.courses);
 
-  if (!courses) {
-    courses = [{
-      id: '-1',
-      name: '',
-      color: '#ccc'
-    }];
-  }
-
   useEffect(() => {
     setHasCourses(courses.length > 0);
   }, [updateCourses]);
@@ -80,9 +72,9 @@ const UpdateTaskScreen = ({ route, refresh }) => {
       <PrimaryButton 
         width='90%' 
         marginTop={5} 
-        onPress={() => handleNewTask(course, name, dateBegin, dateEnd, dispatch, 
-                                     navigation, setName, setCourse, setCourseName, 
-                                     color)}
+        onPress={() => handleUpdateTask(course, task.id, name, dateBegin, dateEnd, dispatch, 
+                                        navigation, setName, setCourse, setCourseName, 
+                                        color)}
       >
         SAVE
       </PrimaryButton> 
@@ -245,8 +237,8 @@ function clearModalFields(setCourse, setCourseName, colorRef) {
   colorRef.current = colors.blur;
 }
 
-function handleNewTask(course, name, dateBeginRef, dateEndRef, dispatch, 
-                       navigation, setName, setCourse, setCourseName, colorRef) {
+function handleUpdateTask(course, id, name, dateBeginRef, dateEndRef, dispatch, 
+                          navigation, setName, setCourse, setCourseName, colorRef) {
   if (!isValidName(course)) {
     displayInvalidCourseAlert();
     return;
@@ -262,7 +254,7 @@ function handleNewTask(course, name, dateBeginRef, dateEndRef, dispatch,
     return;
   }
 
-  persistTask(dispatch, name, course, dateBeginRef, dateEndRef);
+  persistTask(dispatch, id, name, course, dateBeginRef, dateEndRef);
   clearFields(setName, setCourse, setCourseName, colorRef, dateBeginRef, dateEndRef);
   goToHomeScreen(navigation);
 }
@@ -312,10 +304,11 @@ function displayInvalidDateAlert() {
   );
 }
 
-function persistTask(dispatch, name, course, dateBeginRef, dateEndRef) {
+function persistTask(dispatch, id, name, course, dateBeginRef, dateEndRef) {
   dispatch({
-    type: 'INSERT_TASK',
+    type: 'UPDATE_TASK',
     payload: {
+      id: id,
       name: name,
       course: course,
       dateBegin: dateBeginRef.current.getTime(),
