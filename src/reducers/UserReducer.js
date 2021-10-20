@@ -13,11 +13,19 @@ import { v4 as uuid } from 'uuid';
  *   course: '-1',
  *   dateBegin: 0,
  *   dateEnd: 0
+ * }],
+ * done: [{
+ *   id: '-1',
+ *   name: '',
+ *   course: '-1',
+ *   dateBegin: 0,
+ *   dateEnd: 0
  * }]
  */
 const initialState = {
   courses: [],
-  tasks: []  
+  tasks: [],
+  done: []
 };
 
 export default (state=initialState, action) => {
@@ -35,6 +43,8 @@ export default (state=initialState, action) => {
       return updateCourse(action.payload, state);
     case 'REMOVE_COURSE':
       return removeCourse(action.payload, state);
+    case 'MARK_AS_DONE':
+      return markAsDone(action.payload.id, state);
     case 'RESET_TASKS_MONTH':
       return removeTasksFromCurrentMonth(action.payload);
     case 'RESET_TASKS_SEMESTER':
@@ -153,6 +163,22 @@ function removeCourse(payload, state) {
   const newTaskList = getPersistedTasksWithoutCourseId(payload.id, state);
   
   return { ...state, tasks: newTaskList, courses: newCourseList };
+}
+
+function markAsDone(taskId, state) {
+  if (!state.done)
+    state.done = []
+
+  const undoneTasks = state.tasks.filter(t => t.id != taskId);
+  const doneTasks = state.done.push(getPersistedTaskWithId(taskId, state));
+
+  return { ...state, tasks: undoneTasks, done: doneTasks };
+}
+
+function getPersistedTaskWithId(id, state) {
+  const tasks = state.tasks;
+
+  return tasks.find(task => task.id == id);
 }
 
 function getPersistedTasksWithoutCourseId(id, state) {
