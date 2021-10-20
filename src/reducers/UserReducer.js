@@ -78,12 +78,8 @@ function buildTaskFromPayload(payload, taskId)  {
 function updateTask(payload, state) {
   const tasks = state.tasks;
   const newTaskList = tasks.filter(task => task.id !== payload.id);
-
-  if (newTaskList.length !== 0) {
-    const task = buildTaskFromPayload(payload, payload.id);
-  
-    tasks.push(task);
-  }
+  const task = buildTaskFromPayload(payload, payload.id);
+  newTaskList.push(task);
     
   return { ...state, tasks: newTaskList };
 }

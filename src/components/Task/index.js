@@ -13,8 +13,12 @@ const Task = ({ refresh }) => {
   const courseList = useSelector(state => state.UserReducer.courses);
   
   useEffect(() => {
-    setTasks(taskList);
-    setLoading(false);
+    setLoading(true);
+    setTasks([]);
+    setTimeout(() => {
+      setTasks(taskList);
+      setLoading(false);
+    }, 200);
   }, [taskList, refresh]);
 
   if (loading)
