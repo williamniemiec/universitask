@@ -53,8 +53,10 @@
   },
   "jest": {
     "preset": "react-native",
-    "setupFiles": ["./jestSetupFile.js", "./node_modules/react-native-gesture-handler/jestSetup.js"],
-    
+    "setupFiles": [
+      "./jestSetupFile.js",
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
+    ],
     "transformIgnorePatterns": [
       "/node_modules/(?!(@react-native|react-native|@react-navigation|react-native-swipe-list-view|react-native-expo-viewport-units|react-native-gesture-handler|react-native-reanimated|react-native-wheel-color-picker|@react-native-community/datetimepicker|@react-native-async-storage/async-storage|redux-persist)/).*/"
     ]

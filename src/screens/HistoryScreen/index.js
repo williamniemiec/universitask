@@ -24,6 +24,9 @@ const HistoryScreen = ({ route }) => {
 
 
   useLayoutEffect(() => {
+    if (persistedCourses.length == 0)
+      return;
+    
     setTasks(getTasksWithCoursesName(persistedTasks, persistedCourses));
     
     let i = setInterval(() => {
