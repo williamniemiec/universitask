@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from '../../components/template/Container';
-import Task from '../../components/Task';
+import Task from './Task';
 import HeaderTitle from '../../components/template/HeaderTitle';
 
 //-----------------------------------------------------------------------------

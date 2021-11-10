@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import NoTasksMessage from './NoTasksMessage';
-import Loading from './Loading';
+import NoTasksMessage from '../../../components/NoTasksMessage';
+import Loading from '../../../components/template/Loading';
 import TaskList from './TaskList';
 import { useSelector } from 'react-redux';
 

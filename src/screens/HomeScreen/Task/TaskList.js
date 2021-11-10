@@ -7,12 +7,13 @@ import {
   Container, 
   Center, 
   Flex,
-  Image,
   Pressable
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RefreshControl } from 'react-native';
+import { TrashIcon, CheckIcon } from './Icons';
+
 
 //-----------------------------------------------------------------------------
 //		Components
@@ -60,7 +61,7 @@ const TaskList = ({ tasks, setTasks }) => {
       leftOpenValue={70}
       rightOpenValue={-70}
       renderItem={(item, index) => <ListItem data={item} courses={courses} handleTaskSelection={() => handleTaskSelection(item)} />}
-      renderHiddenItem={({item, index}) => <RemoveTaskIcon />}
+      renderHiddenItem={({item, index}) => <TaskIcons />}
       stopLeftSwipe={80}
       stopRightSwipe={-80}
       scrollEnabled={true}
@@ -135,13 +136,14 @@ const RightArea = ({ data }) => (
   <Center width={70}>
     <Container>
       <Text>
-        {`${(getCompletenessPrediction(data.item.dateBegin, data.item.dateEnd) * 100).toFixed(2)}% · ${getCompletenessPredictionInDays(data.item.dateBegin, data.item.dateEnd)}`}
+        {`${(getCompletenessPrediction(data.item.dateBegin, data.item.dateEnd) * 100).toFixed(2)}% `}
+        {`· ${getCompletenessPredictionInDays(data.item.dateBegin, data.item.dateEnd)}`}
       </Text>
     </Container>
   </Center>
 );
 
-const RemoveTaskIcon = () => (
+const TaskIcons = () => (
   <Flex
     height={88}
     maxHeight={88}
@@ -151,38 +153,8 @@ const RemoveTaskIcon = () => (
     flexDirection='row'
     justifyContent='space-between'
   >
-    <Flex 
-      height={88}
-      width={20}
-      alignItems='center'
-      justifyContent='center'
-      backgroundColor='#f90233'
-    >
-      <Image
-        source={require('../../assets/img/icon/trash.png')}
-        alt='remove task icon'
-        style={{
-          maxHeight: 40,
-          maxWidth: 40
-        }}
-      />
-    </Flex>
-    <Flex 
-      height={88}
-      width={20}
-      alignItems='center'
-      justifyContent='center'
-      backgroundColor='#5ac18e'
-    >
-      <Image
-        source={require('../../assets/img/icon/check.png')}
-        alt='mask as done'
-        style={{
-          maxHeight: 40,
-          maxWidth: 40
-        }}
-      />
-    </Flex>
+    <TrashIcon />
+    <CheckIcon />
   </Flex>
 );
 

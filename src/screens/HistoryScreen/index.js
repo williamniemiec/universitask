@@ -7,7 +7,7 @@ import {
 import styles from './styles';
 import { TasksPieChart } from './TasksPieChart';
 import { TasksBarChart } from './TasksBarChart';
-import NoTasksMessage from '../../components/Task/NoTasksMessage';
+import NoTasksMessage from '../../components/NoTasksMessage';
 import { mockTasks } from './mockData';
 import HeaderTitle from '../../components/template/HeaderTitle';
 
