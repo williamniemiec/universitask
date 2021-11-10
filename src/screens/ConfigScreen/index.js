@@ -5,6 +5,8 @@ import colors from '../../colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import UpdateRemoveCourseModal from './UpdateRemoveCourseModal';
+import Container from '../../components/template/Container';
+import HeaderTitle from '../../components/template/HeaderTitle';
 
 
 //-----------------------------------------------------------------------------
@@ -29,29 +31,32 @@ const ConfigScreen = () => {
   }
 
   return (
-    <Flex 
-      flex={1} 
-      alignItems='center' 
-      paddingTop={5} 
-      style={{backgroundColor: 'white'}}
-    >
-      <UpdateRemoveCourseButton onPress={() => setShowModal(true)} />
-      <UpdateRemoveCourseModal 
-        show={showModal} 
-        onClose={() => setShowModal(false)}
-        courses={courses} 
-        selectedCourse={course} 
-        setSelectedCourse={setCourse} 
-        onRemoveCourse={() => handleRemoveCourse(dispatch, setShowModal, navigation, 
-                                                 course, setCourse, color)} 
-        onUpdateCourse={() => handleUpdateCourse(dispatch, setShowModal, navigation, 
-                                                 course, setCourse, color)} 
-        colorRef={color}
-      />
-      <RemoveAllMonthTasksButton onPress={() => handleRemoveAllMonthTasks(dispatch, navigation)} />
-      <RemoveAllSemesterTasksButton onPress={() => handleRemoveAllSemesterTasks(dispatch, navigation)} />
-      <ResetButton onPress={() => handleReset(dispatch, navigation)} />
-    </Flex>
+    <Container>
+      <HeaderTitle>Settings</HeaderTitle>
+      <Flex 
+        flex={1} 
+        alignItems='center' 
+        paddingTop={5} 
+        style={{backgroundColor: 'white'}}
+      >
+        <UpdateRemoveCourseButton onPress={() => setShowModal(true)} />
+        <UpdateRemoveCourseModal 
+          show={showModal} 
+          onClose={() => setShowModal(false)}
+          courses={courses} 
+          selectedCourse={course} 
+          setSelectedCourse={setCourse} 
+          onRemoveCourse={() => handleRemoveCourse(dispatch, setShowModal, navigation, 
+                                                  course, setCourse, color)} 
+          onUpdateCourse={() => handleUpdateCourse(dispatch, setShowModal, navigation, 
+                                                  course, setCourse, color)} 
+          colorRef={color}
+        />
+        <RemoveAllMonthTasksButton onPress={() => handleRemoveAllMonthTasks(dispatch, navigation)} />
+        <RemoveAllSemesterTasksButton onPress={() => handleRemoveAllSemesterTasks(dispatch, navigation)} />
+        <ResetButton onPress={() => handleReset(dispatch, navigation)} />
+      </Flex>
+    </Container>
   );
 }
 

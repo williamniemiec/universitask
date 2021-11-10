@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import PrimaryButton from '../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
 import CreateCourseModal from './CreateCourseModal';
+import Container from '../../components/template/Container';
+import HeaderTitle from '../../components/template/HeaderTitle';
 
 
 //-----------------------------------------------------------------------------
@@ -48,42 +50,45 @@ const CreateTaskScreen = ({refresh}) => {
   }, [updateCourses]);
 
   return (
-    <Flex 
-      flex={1} 
-      alignItems='center' 
-      paddingTop={5} 
-      style={{backgroundColor: 'white'}}
-    >
-      <NameField name={name} setName={setName} />
-      <CourseField 
-        hasCourses={hasCourses}
-        colorRef={color} 
-        courses={courses} 
-        course={course} 
-        setCourse={setCourse} 
-        handleNewCourse={() => setShowModal(true)} 
-      />
-      <CreateCourseModal 
-        show={showModal} 
-        onClose={() => setShowModal(false)}
-        courseName={courseName} 
-        setCourseName={setCourseName} 
-        onCreateCourse={() => handleNewCourse(dispatch, setShowModal, setCourse, 
-                                              courseName, setCourseName, color, 
-                                              setUpdateCourses)} 
-        colorRef={color}
-      />
-      <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
-      <PrimaryButton 
-        width='90%' 
-        marginTop={5} 
-        onPress={() => handleNewTask(course, name, dateBegin, dateEnd, dispatch, 
-                                     navigation, setName, setCourse, setCourseName, 
-                                     color)}
+    <Container>
+      <HeaderTitle>New task</HeaderTitle>
+      <Flex 
+        flex={1} 
+        alignItems='center' 
+        paddingTop={5} 
+        style={{backgroundColor: 'white'}}
       >
-        CREATE
-      </PrimaryButton> 
-    </Flex>
+        <NameField name={name} setName={setName} />
+        <CourseField 
+          hasCourses={hasCourses}
+          colorRef={color} 
+          courses={courses} 
+          course={course} 
+          setCourse={setCourse} 
+          handleNewCourse={() => setShowModal(true)} 
+        />
+        <CreateCourseModal 
+          show={showModal} 
+          onClose={() => setShowModal(false)}
+          courseName={courseName} 
+          setCourseName={setCourseName} 
+          onCreateCourse={() => handleNewCourse(dispatch, setShowModal, setCourse, 
+                                                courseName, setCourseName, color, 
+                                                setUpdateCourses)} 
+          colorRef={color}
+        />
+        <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
+        <PrimaryButton 
+          width='90%' 
+          marginTop={5} 
+          onPress={() => handleNewTask(course, name, dateBegin, dateEnd, dispatch, 
+                                      navigation, setName, setCourse, setCourseName, 
+                                      color)}
+        >
+          CREATE
+        </PrimaryButton> 
+      </Flex>
+    </Container>
   );
 }
 
