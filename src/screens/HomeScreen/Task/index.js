@@ -4,6 +4,10 @@ import Loading from '../../../components/template/Loading';
 import TaskList from './TaskList';
 import { useSelector } from 'react-redux';
 
+
+//-----------------------------------------------------------------------------
+//		Components
+//-----------------------------------------------------------------------------
 const Task = ({ refresh }) => {
 
   const [tasks, setTasks] = useState([]);

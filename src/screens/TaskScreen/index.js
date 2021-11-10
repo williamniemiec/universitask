@@ -20,9 +20,6 @@ const TaskScreen = ({ route }) => {
 
   const task = buildTaskFromRoute(route, useSelector);
 
-  const [name, setName] = useState(task.name);
-  const [course, setCourse] = useState(task.course);
-
   const navigation = useNavigation();
   const dateBegin = useRef(new Date(task.dateBegin));
   const dateEnd = useRef(new Date(task.dateEnd));
@@ -34,13 +31,13 @@ const TaskScreen = ({ route }) => {
       paddingTop={5} 
       style={{backgroundColor: 'white'}}
     >
-      <NameField name={name} setName={setName} />
-      <CourseField course={course} />
+      <NameField name={task.name} />
+      <CourseField course={task.course} />
       <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
       <PrimaryButton 
         width='90%' 
         marginTop={5} 
-        onPress={() => handleChange(course, name, dateBegin, dateEnd, task.id, navigation)}
+        onPress={() => handleChange(task.course, task.name, dateBegin, dateEnd, task.id, navigation)}
       >
         CHANGE
       </PrimaryButton> 
@@ -51,7 +48,7 @@ const TaskScreen = ({ route }) => {
 
 export default TaskScreen;
 
-const NameField = ({ name, setName }) => (
+const NameField = ({ name }) => (
   <Flex width='90%'>
     <Heading size='xs'>Name</Heading>
     <Input
