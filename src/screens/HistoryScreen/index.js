@@ -10,6 +10,8 @@ import { TasksBarChart } from './TasksBarChart';
 import NoTasksMessage from '../../components/NoTasksMessage';
 import { mockTasks } from './mockData';
 import HeaderTitle from '../../components/template/HeaderTitle';
+import translate from '../../locales';
+
 
 //-----------------------------------------------------------------------------
 //		Components
@@ -49,8 +51,8 @@ const HistoryScreen = ({ route }) => {
   return (
     <Container>
       <ScrollView>
-        <HeaderTitle>History</HeaderTitle>
-        <Heading style={styles.title}>This Semester</Heading>
+        <HeaderTitle>{translate('HISTORY')}</HeaderTitle>
+        <Heading style={styles.title}>{translate('THIS_SEMESTER')}</Heading>
         {tasks.length > 0 && <TasksPieChart tasks={tasks} />}
         {tasks.length > 0 && <TasksBarChart tasks={tasks} />}
       </ScrollView>

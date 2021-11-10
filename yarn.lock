@@ -2970,11 +2970,6 @@
     "expo-modules-autolinking" "^0.0.3"
     "invariant" "^2.2.4"
 
-"@wniemiec-component-reactnative/action-button@^1.0.1":
-  "integrity" "sha512-gbK2l8OK+JpccVG2l17dhMBV7Fmty6knpcyc1U8VWYENGTZfysJiIL5gDe12u3JQkC0kxRdtGHz3xbqtco+byg=="
-  "resolved" "https://registry.npmjs.org/@wniemiec-component-reactnative/action-button/-/action-button-1.0.1.tgz"
-  "version" "1.0.1"
-
 "@xmldom/xmldom@~0.7.0":
   "integrity" "sha512-V3BIhmY36fXZ1OtVcI9W+FxQqxVLsPKcNjWigIaa81dLC9IolJl5Mt4Cvhmr0flUnjSpTdrbMTSbXqYqV5dT6A=="
   "resolved" "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.7.5.tgz"
@@ -5539,6 +5534,11 @@
   "integrity" "sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw=="
   "resolved" "https://registry.npmjs.org/human-signals/-/human-signals-1.1.1.tgz"
   "version" "1.1.1"
+
+"i18n-js@^3.8.0":
+  "integrity" "sha512-hDsGgPuvw/2P+lXSbOafAwspK8Ste8YrwuuUg17W3wEcO1JkQxBlPgsN1t2+852nTnz4YSYTjZc/1nAA2PC/nw=="
+  "resolved" "https://registry.npmjs.org/i18n-js/-/i18n-js-3.8.0.tgz"
+  "version" "3.8.0"
 
 "iconv-lite@^0.4.17":
   "integrity" "sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA=="

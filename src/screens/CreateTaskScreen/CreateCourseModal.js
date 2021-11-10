@@ -5,9 +5,9 @@ import {
   Modal,
   FormControl
 } from 'native-base';
-import colors from '../../colors';
 import PrimaryButton from '../../components/PrimaryButton';
 import ColorPicker from 'react-native-wheel-color-picker'
+import translate from '../../locales';
 
 
 //-----------------------------------------------------------------------------
@@ -39,7 +39,7 @@ export default CreateCourseModal;
 
 const CreateCourseModalHeader = () => (
   <Modal.Header>
-    New course
+    {translate('NEW_COURSE')}
   </Modal.Header>
 );
 
@@ -47,10 +47,10 @@ const CreateCourseModalBody = ({ courseName, setCourseName, colorRef, colorPicke
   return (
     <Modal.Body>
       <FormControl>
-        <FormControl.Label>Name</FormControl.Label>
+        <FormControl.Label>{translate('NAME')}</FormControl.Label>
         <Input
           value={courseName}
-          placeholder='Artificial Intelligence'
+          placeholder={translate('ARTIFICIAL_INTELLIGENCE')}
           style={{
             backgroundColor: '#ffffff',
             borderWidth: 1,
@@ -62,7 +62,7 @@ const CreateCourseModalBody = ({ courseName, setCourseName, colorRef, colorPicke
         />
       </FormControl>
       <FormControl mt="3">
-        <FormControl.Label>Color</FormControl.Label>
+        <FormControl.Label>{translate('COLOR')}</FormControl.Label>
         <ColorPicker
           ref={colorPicker}
           color={colorRef.current}
@@ -77,7 +77,7 @@ const CreateCourseModalFooter = ({ onCreateCourse }) => (
   <Modal.Footer>
     <Button.Group space={1}>
       <PrimaryButton onPress={onCreateCourse}>
-        CREATE
+        {translate('CREATE').toUpperCase()}
       </PrimaryButton>
     </Button.Group>
   </Modal.Footer>

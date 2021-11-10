@@ -9,7 +9,8 @@ import {
 import colors from '../../colors';
 import PrimaryButton from '../../components/PrimaryButton';
 import SecondaryButton from '../../components/buttons/SecondaryButton';
-import ColorPicker from 'react-native-wheel-color-picker'
+import ColorPicker from 'react-native-wheel-color-picker';
+import translate from '../../locales';
 
 
 //-----------------------------------------------------------------------------
@@ -53,7 +54,7 @@ export default UpdateRemoveCourseModal;
 
 const UpdateRemoveCourseModalHeader = () => (
   <Modal.Header>
-    Update / remove course
+    {translate('UPDATE_REMOVE_COURSE')}
   </Modal.Header>
 );
 
@@ -70,7 +71,7 @@ const UpdateRemoveCourseModalBody = ({
   return (
     <Modal.Body>
       <FormControl>
-        <FormControl.Label>Course</FormControl.Label>
+        <FormControl.Label>{translate('COURSE')}</FormControl.Label>
         <Select
           isDisabled={courses.length == 0}
           selectedValue={selectedCourse}
@@ -103,7 +104,7 @@ const UpdateRemoveCourseModalBody = ({
         </Select>
       </FormControl>
       <FormControl mt="3">
-        <FormControl.Label>Color</FormControl.Label>
+        <FormControl.Label>{translate('COLOR')}</FormControl.Label>
         <ColorPicker
           ref={colorPicker}
           color={colorRef.current}
@@ -118,10 +119,10 @@ const UpdateRemoveCourseModalFooter = ({ onRemoveCourse, onUpdateCourse }) => (
   <Modal.Footer>
     <Button.Group space={2}>
       <SecondaryButton onPress={onRemoveCourse}>
-        Remove
+        {translate('REMOVE')}
       </SecondaryButton>
       <PrimaryButton onPress={onUpdateCourse}>
-        UPDATE
+        {translate('UPDATE').toUpperCase()}
       </PrimaryButton>
     </Button.Group>
   </Modal.Footer>

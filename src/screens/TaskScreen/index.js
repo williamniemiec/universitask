@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   Flex,
   Input,
@@ -11,6 +11,7 @@ import DateTimeSelector from '../../components/DateTimeSelector';
 import { useSelector } from 'react-redux';
 import PrimaryButton from '../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
+import translate from '../../locales';
 
 
 //-----------------------------------------------------------------------------
@@ -39,7 +40,7 @@ const TaskScreen = ({ route }) => {
         marginTop={5} 
         onPress={() => handleChange(task.course, task.name, dateBegin, dateEnd, task.id, navigation)}
       >
-        CHANGE
+        {translate('CHANGE').toUpperCase()}
       </PrimaryButton> 
     </Flex>
   );
@@ -50,7 +51,7 @@ export default TaskScreen;
 
 const NameField = ({ name }) => (
   <Flex width='90%'>
-    <Heading size='xs'>Name</Heading>
+    <Heading size='xs'>{translate('NAME')}</Heading>
     <Input
       isDisabled={true}
       placeholder='Exam'
@@ -72,7 +73,7 @@ const NameField = ({ name }) => (
 const CourseField = ({ course }) => {
   return (
     <Flex width='90%'>
-      <Heading size='xs'>Course</Heading>
+      <Heading size='xs'>{translate('COURSE')}</Heading>
       <Flex width='100%' flexDirection='row'>
       <Select
           isDisabled={true}
@@ -112,14 +113,14 @@ const DateRangeField = ({ dateBegin, dateEnd }) => (
 
 const BeginDateField = ({ dateBegin }) => (
   <Flex width='45%'>
-    <Heading size='xs'>Announcement date</Heading>
+    <Heading size='xs'>{translate('ANNOUNCEMENT_DATE')}</Heading>
     <DateTimeSelector dateRef={dateBegin} monthFirst={false} isDisabled={true} />
   </Flex>
 );
 
 const EndDateField = ({ dateEnd }) => (
   <Flex width='45%'>
-    <Heading size='xs'>Due date</Heading>
+    <Heading size='xs'>{translate('DUE_DATE')}</Heading>
     <DateTimeSelector dateRef={dateEnd} monthFirst={false} isDisabled={true}  />
   </Flex>
 );

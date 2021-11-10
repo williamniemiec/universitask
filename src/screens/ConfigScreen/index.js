@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import UpdateRemoveCourseModal from './UpdateRemoveCourseModal';
 import Container from '../../components/template/Container';
 import HeaderTitle from '../../components/template/HeaderTitle';
+import translate from '../../locales';
 
 
 //-----------------------------------------------------------------------------
@@ -32,7 +33,7 @@ const ConfigScreen = () => {
 
   return (
     <Container>
-      <HeaderTitle>Settings</HeaderTitle>
+      <HeaderTitle>{translate('SETTINGS')}</HeaderTitle>
       <Flex 
         flex={1} 
         alignItems='center' 
@@ -69,7 +70,7 @@ const UpdateRemoveCourseButton = ({ onPress }) => (
     marginTop={5}
     onPress={onPress}
   >
-    UPDATE / REMOVE COURSE
+    {translate('UPDATE_REMOVE_COURSE').toUpperCase()}
   </Button> 
 );
 
@@ -80,7 +81,7 @@ const RemoveAllMonthTasksButton = ({ onPress }) => (
     marginTop={5}
     onPress={onPress}
   >
-    REMOVE ALL MONTH TASKS
+    {translate('REMOVE_ALL_MONTH_TASKS').toUpperCase()}
   </Button>
 );
 
@@ -91,7 +92,7 @@ const RemoveAllSemesterTasksButton = ({ onPress }) => (
     marginTop={5}
     onPress={onPress}
   >
-    REMOVE ALL SEMESTER TASKS
+    {translate('REMOVE_ALL_SEMESTER_TASKS').toUpperCase()}
   </Button>
 );
 
@@ -102,7 +103,7 @@ const ResetButton = ({ onPress }) => (
     marginTop={5}
     onPress={onPress}
   >
-    RESET
+    {translate('RESET').toUpperCase()}
   </Button> 
 );
 
@@ -113,16 +114,15 @@ const ResetButton = ({ onPress }) => (
 function handleRemoveCourse(dispatch, setShowModal, navigation, course, 
                             setCourse, colorRef) {
   Alert.alert(
-    "Warning: destructive action",
-    "Are you sure you want to remove this course? All tasks associated with"
-    + "this course will also be removed!",
+    translate('WARN_DESTRUCTIVE_ACTION'),
+    translate('CONFIRM_COURSE_REMOVE'),
     [
       {
-        text: "Cancel",
+        text: translate('CANCEL'),
         style: "cancel"
       },
       {
-        text: "YES", 
+        text: translate('YES').toUpperCase(), 
         onPress: () => removeCourse(dispatch, setShowModal, navigation, course, 
                                     setCourse, colorRef)
       }
@@ -175,15 +175,15 @@ function updatePersistedCourse(dispatch, courseId, colorRef) {
 
 function handleRemoveAllMonthTasks(dispatch, navigation) {
   Alert.alert(
-    "Warning: destructive action",
-    "Are you sure you want to remove all month tasks?",
+    translate('WARN_DESTRUCTIVE_ACTION'),
+    translate('CONFIRM_MONTH_REMOVE_ALL'),
     [
       {
-        text: "Cancel",
+        text: translate('CANCEL'),
         style: "cancel"
       },
       {
-        text: "YES", 
+        text: translate('YES').toUpperCase(), 
         onPress: () => resetMonthTasks(dispatch, navigation)
       }
     ]
@@ -203,15 +203,15 @@ function removePersistedTasksFromCurrentMonth(dispatch) {
 
 function handleRemoveAllSemesterTasks(dispatch, navigation) {
   Alert.alert(
-    "Warning: destructive action",
-    "Are you sure you want to remove all semester tasks?",
+    translate('WARN_DESTRUCTIVE_ACTION'),
+    translate('CONFIRM_SEMESTER_REMOVE_ALL'),
     [
       {
-        text: "Cancel",
+        text: translate('CANCEL'),
         style: "cancel"
       },
       {
-        text: "YES", 
+        text: translate('YES').toUpperCase(), 
         onPress: () => resetSemesterTasks(dispatch, navigation)
       }
     ]
@@ -231,11 +231,11 @@ function removePersistedTasksFromCurrentSemester(dispatch) {
 
 function handleReset(dispatch, navigation) {
   Alert.alert(
-    "Warning: destructive action",
-    "Are you sure you want to remove all tasks?",
+    translate('WARN_DESTRUCTIVE_ACTION'),
+    translate('CONFIRM_RESET'),
     [
       {
-        text: "Cancel",
+        text: translate('CANCEL'),
         style: "cancel"
       },
       {

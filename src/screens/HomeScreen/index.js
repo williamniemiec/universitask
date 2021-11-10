@@ -2,6 +2,7 @@ import React from 'react';
 import Container from '../../components/template/Container';
 import Task from './Task';
 import HeaderTitle from '../../components/template/HeaderTitle';
+import translate from '../../locales';
 
 
 //-----------------------------------------------------------------------------
@@ -11,7 +12,7 @@ const HomeScreen = ({ route }) => {
   
   return (
     <Container>
-      <HeaderTitle>Tasks</HeaderTitle>
+      <HeaderTitle>{translate('TASKS')}</HeaderTitle>
         <Task refresh={route.params?.new}/>
     </Container>
   );

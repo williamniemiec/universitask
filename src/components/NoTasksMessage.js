@@ -1,5 +1,7 @@
 import React from 'react';
 import { Image, Flex, Text } from 'native-base';
+import translate from '../locales';
+
 
 const NoTasksMessage = () => (
   <Flex flex={1} justifyContent='center' alignItems='center'>
@@ -9,8 +11,8 @@ const NoTasksMessage = () => (
       style={{height: 200, width: 200, marginBottom: 20}}
       alt='mavin'
     />
-    <Text>Uau, não existem tarefas!</Text>
-    <Text>Aproveite e vá viver um pouco!</Text>
+    <Text>{translate('NO_TASKS_PRIMARY')}</Text>
+    <Text>{translate('NO_TASKS_SECONDARY')}</Text>
   </Flex>
 );
 
