@@ -16,7 +16,6 @@
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.0.7",
-<<<<<<< HEAD
     "expo": "^42.0.4",
     "i18n-js": "^3.8.0",
     "native-base": "^3.2.0",
@@ -24,14 +23,6 @@
     "react-is": "^17.0.2",
     "react-native": "^0.63.4",
     "react-native-chart-kit": "^6.11.0",
-=======
-    "@wniemiec-component-reactnative/action-button": "^1.0.1",
-    "expo": "^42.0.4",
-    "native-base": "^3.2.0",
-    "react": "16.13.1",
-    "react-is": "^17.0.2",
-    "react-native": "0.63.4",
->>>>>>> 63e79ddc8f94468d75d82ec11a92e58a18ffbb2a
     "react-native-expo-viewport-units": "^0.0.8",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-get-random-values": "^1.7.0",
@@ -39,11 +30,7 @@
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
-<<<<<<< HEAD
     "react-native-svg": "^12.1.1",
-=======
-    "react-native-svg": "12.1.1",
->>>>>>> 63e79ddc8f94468d75d82ec11a92e58a18ffbb2a
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-viewport-units": "^0.0.5",
     "react-native-wheel-color-picker": "^1.1.0",
@@ -66,15 +53,10 @@
   },
   "jest": {
     "preset": "react-native",
-<<<<<<< HEAD
     "setupFiles": [
       "./jestSetupFile.js",
       "./node_modules/react-native-gesture-handler/jestSetup.js"
     ],
-=======
-    "setupFiles": ["./jestSetupFile.js", "./node_modules/react-native-gesture-handler/jestSetup.js"],
-    
->>>>>>> 63e79ddc8f94468d75d82ec11a92e58a18ffbb2a
     "transformIgnorePatterns": [
       "/node_modules/(?!(@react-native|react-native|@react-navigation|react-native-swipe-list-view|react-native-expo-viewport-units|react-native-gesture-handler|react-native-reanimated|react-native-wheel-color-picker|@react-native-community/datetimepicker|@react-native-async-storage/async-storage|redux-persist)/).*/"
     ]
