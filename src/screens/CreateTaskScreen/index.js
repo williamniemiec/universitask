@@ -14,6 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import PrimaryButton from '../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
 import CreateCourseModal from './CreateCourseModal';
+import Container from '../../components/template/Container';
+import HeaderTitle from '../../components/template/HeaderTitle';
+import translate from '../../locales';
 
 
 //-----------------------------------------------------------------------------
@@ -48,42 +51,45 @@ const CreateTaskScreen = ({refresh}) => {
   }, [updateCourses]);
 
   return (
-    <Flex 
-      flex={1} 
-      alignItems='center' 
-      paddingTop={5} 
-      style={{backgroundColor: 'white'}}
-    >
-      <NameField name={name} setName={setName} />
-      <CourseField 
-        hasCourses={hasCourses}
-        colorRef={color} 
-        courses={courses} 
-        course={course} 
-        setCourse={setCourse} 
-        handleNewCourse={() => setShowModal(true)} 
-      />
-      <CreateCourseModal 
-        show={showModal} 
-        onClose={() => setShowModal(false)}
-        courseName={courseName} 
-        setCourseName={setCourseName} 
-        onCreateCourse={() => handleNewCourse(dispatch, setShowModal, setCourse, 
-                                              courseName, setCourseName, color, 
-                                              setUpdateCourses)} 
-        colorRef={color}
-      />
-      <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
-      <PrimaryButton 
-        width='90%' 
-        marginTop={5} 
-        onPress={() => handleNewTask(course, name, dateBegin, dateEnd, dispatch, 
-                                     navigation, setName, setCourse, setCourseName, 
-                                     color)}
+    <Container>
+      <HeaderTitle>{translate('NEW_TASK')}</HeaderTitle>
+      <Flex 
+        flex={1} 
+        alignItems='center' 
+        paddingTop={5} 
+        style={{backgroundColor: 'white'}}
       >
-        CREATE
-      </PrimaryButton> 
-    </Flex>
+        <NameField name={name} setName={setName} />
+        <CourseField 
+          hasCourses={hasCourses}
+          colorRef={color} 
+          courses={courses} 
+          course={course} 
+          setCourse={setCourse} 
+          handleNewCourse={() => setShowModal(true)} 
+        />
+        <CreateCourseModal 
+          show={showModal} 
+          onClose={() => setShowModal(false)}
+          courseName={courseName} 
+          setCourseName={setCourseName} 
+          onCreateCourse={() => handleNewCourse(dispatch, setShowModal, setCourse, 
+                                                courseName, setCourseName, color, 
+                                                setUpdateCourses)} 
+          colorRef={color}
+        />
+        <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
+        <PrimaryButton 
+          width='90%' 
+          marginTop={5} 
+          onPress={() => handleNewTask(course, name, dateBegin, dateEnd, dispatch, 
+                                      navigation, setName, setCourse, setCourseName, 
+                                      color)}
+        >
+          {translate('CREATE').toUpperCase()}
+        </PrimaryButton> 
+      </Flex>
+    </Container>
   );
 }
 
@@ -91,7 +97,7 @@ export default CreateTaskScreen;
 
 const NameField = ({ name, setName }) => (
   <Flex width='90%'>
-    <Heading size='xs'>Name</Heading>
+    <Heading size='xs'>{translate('NAME')}</Heading>
     <Input
       placeholder='Exam'
       value={name}
@@ -121,7 +127,7 @@ const CourseField = ({ colorRef, courses, course, setCourse, handleNewCourse, ha
 
   return (
     <Flex width='90%'>
-      <Heading size='xs'>Course</Heading>
+      <Heading size='xs'>{translate('COURSE')}</Heading>
       <Flex width='100%' flexDirection='row'>
       <Select
           isDisabled={!hasCourses}
@@ -165,14 +171,14 @@ const DateRangeField = ({ dateBegin, dateEnd }) => (
 
 const BeginDateField = ({ dateBegin }) => (
   <Flex width='45%'>
-    <Heading size='xs'>Announcement date</Heading>
+    <Heading size='xs'>{translate('ANNOUNCEMENT_DATE')}</Heading>
     <DateTimeSelector dateRef={dateBegin} monthFirst={false} />
   </Flex>
 );
 
 const EndDateField = ({ dateEnd }) => (
   <Flex width='45%'>
-    <Heading size='xs'>Due date</Heading>
+    <Heading size='xs'>{translate('DUE_DATE')}</Heading>
     <DateTimeSelector dateRef={dateEnd} monthFirst={false} />
   </Flex>
 );
@@ -201,11 +207,11 @@ function isValidName(name) {
 
 function displayInvalidCourseNameAlert() {
   Alert.alert(
-    "Error",
-    "You need to provide a course name",
+    translate('ERROR'),
+    translate('COURSE_NAME_REQUIRED'),
     [
       {
-        text: "OK",
+        text: translate('OK').toUpperCase(),
         style: "cancel"
       }
     ]
@@ -252,11 +258,11 @@ function handleNewTask(course, name, dateBeginRef, dateEndRef, dispatch,
 
 function displayInvalidCourseAlert() {
   Alert.alert(
-    "Error",
-    "You need to select a course",
+    translate('ERROR'),
+    translate('COURSE_REQUIRED'),
     [
       {
-        text: "OK",
+        text: translate('OK').toUpperCase(),
         style: "cancel"
       }
     ]
@@ -265,11 +271,11 @@ function displayInvalidCourseAlert() {
 
 function displayInvalidNameAlert() {
   Alert.alert(
-    "Error",
-    "You need to provide a task name",
+    translate('ERROR'),
+    translate('TASK_NAME_REQUIRED'),
     [
       {
-        text: "OK",
+        text: translate('OK').toUpperCase(),
         onPress: () => {},
         style: "cancel"
       }
@@ -283,11 +289,11 @@ function taskStartsAfterDeadline(dateBeginRef, dateEndRef) {
 
 function displayInvalidDateAlert() {
   Alert.alert(
-    "Error",
-    "The task cannot start after the deadline",
+    translate('ERROR'),
+    translate('TASK_AFTER_DEADLINE'),
     [
       {
-        text: "OK",
+        text: translate('OK').toUpperCase(),
         onPress: () => {},
         style: "cancel"
       }

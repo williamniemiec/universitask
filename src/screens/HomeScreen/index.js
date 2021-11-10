@@ -1,8 +1,8 @@
 import React from 'react';
-import { Heading } from 'native-base';
 import Container from '../../components/template/Container';
-import Task from '../../components/Task';
-import styles from './styles';
+import Task from './Task';
+import HeaderTitle from '../../components/template/HeaderTitle';
+import translate from '../../locales';
 
 
 //-----------------------------------------------------------------------------
@@ -12,7 +12,7 @@ const HomeScreen = ({ route }) => {
   
   return (
     <Container>
-      <Heading style={styles.title}>Tasks</Heading>
+      <HeaderTitle>{translate('TASKS')}</HeaderTitle>
         <Task refresh={route.params?.new}/>
     </Container>
   );

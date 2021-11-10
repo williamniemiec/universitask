@@ -39,21 +39,24 @@ const MainStack = () => {
         name="CreateTaskScreen" 
         component={CreateTaskScreen} 
         options={{
-          title: "New task"
+          title: "New task",
+          headerShown: false
         }}
       />
       <TabNavigator.Screen 
         name="HistoryScreen" 
         component={HistoryScreen}
         options={{
-          title: "History"
+          title: "History",
+          headerShown: false
         }}
       />
       <TabNavigator.Screen 
         name="ConfigScreen" 
         component={ConfigScreen} 
         options={{
-          title: "Settings"
+          title: "Settings",
+          headerShown: false
         }}
       />
     </TabNavigator.Navigator>
