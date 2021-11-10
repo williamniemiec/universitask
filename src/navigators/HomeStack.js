@@ -2,10 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import TaskScreen from '../screens/TaskScreen';
-<<<<<<< HEAD
 import UpdateTaskScreen from '../screens/UpdateTaskScreen';
-=======
->>>>>>> 63e79ddc8f94468d75d82ec11a92e58a18ffbb2a
 import HistoryScreen from '../screens/HistoryScreen';
 import colors from '../colors';
 
@@ -43,7 +40,6 @@ const HomeStack = () => {
         }}
       />
       <StackNavigator.Screen 
-<<<<<<< HEAD
         name="UpdateTaskScreen" 
         component={UpdateTaskScreen} 
         options={{
@@ -51,8 +47,6 @@ const HomeStack = () => {
         }}
       />
       <StackNavigator.Screen 
-=======
->>>>>>> 63e79ddc8f94468d75d82ec11a92e58a18ffbb2a
         name="HistoryScreen" 
         component={HistoryScreen}
         options={{
