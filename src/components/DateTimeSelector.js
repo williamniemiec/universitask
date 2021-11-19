@@ -28,7 +28,7 @@ const DateTimeSelector = ({ dateRef, monthFirst=false, isDisabled=false, ...base
         isDisabled={isDisabled}
         value={formatedDate}
         w={{
-          md: "50%",
+          md: "100%",
         }}
         style={{
           backgroundColor: '#ffffff',

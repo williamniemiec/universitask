@@ -4,7 +4,8 @@ import style from './style';
 
 const PlusButton = ({ color, onPress }) => (
   <Button 
-    height={46} 
+    height={46}
+    width={46}
     _text={{
       color: color,
       fontSize: 30
