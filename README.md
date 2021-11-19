@@ -49,10 +49,11 @@ Type in your terminal:
 
 #### Throubleshoot
 ##### Error
-"""
+
+```
 error SHA-1 for file /usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js (/usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js) is not computed. Run CLI with --verbose flag for more details.
 ReferenceError: SHA-1 for file /usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js (/usr/local/lib/node_modules/react-native/node_modules/metro/src/lib/polyfills/require.js) is not computed
-"""
+```
 
 ##### Solution - Linux
 > npx react-native start
