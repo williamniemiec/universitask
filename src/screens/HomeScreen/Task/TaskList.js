@@ -55,9 +55,10 @@ const TaskList = ({ tasks, setTasks }) => {
   return (
     <SwipeListView
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+      
       data={visibleTasks}
       keyExtractor={(item) => String(item.id)}
-      style={{flex: 1, width: '100%', height: vh(70)}}
+      style={{flex: 1, width: '100%', height: vh(70), marginBottom: 30}}
       leftOpenValue={70}
       rightOpenValue={-70}
       renderItem={(item, index) => <ListItem data={item} courses={courses} handleTaskSelection={() => handleTaskSelection(item)} />}
