@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Keyboard, TouchableHighlight, View } from 'react-native';
+import { Keyboard, TouchableHighlight, View, Dimensions } from 'react-native';
 import styles from './styles';
 
 function CustomTabBar({ state, descriptors, navigation }) {
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [landscape, setLandscape] = useState(false);
+
+  Dimensions.addEventListener('change', () => {
+    const dim = Dimensions.get('screen');
+    
+    setLandscape(dim.width >= dim.height);
+  });
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -44,7 +51,7 @@ function CustomTabBar({ state, descriptors, navigation }) {
         if (route.name == 'CreateTaskScreen') {
           return (
             <View key={index} style={styles.main}>
-              <TouchableHighlight onPress={redirect} style={styles.middleTab}>
+              <TouchableHighlight onPress={redirect} style={[styles.middleTab, {left: landscape ? '50%' : '40%'}]}>
                 {icon}
               </TouchableHighlight>
             </View>
