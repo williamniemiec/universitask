@@ -5,12 +5,16 @@ import styles from './styles';
 function CustomTabBar({ state, descriptors, navigation }) {
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const [landscape, setLandscape] = useState(false);
+  const [landscape, setLandscape] = useState(isLandscape());
+
+  function isLandscape() {
+    const dim = Dimensions.get('screen');
+      
+    return (dim.width >= dim.height);
+  }
 
   Dimensions.addEventListener('change', () => {
-    const dim = Dimensions.get('screen');
-    
-    setLandscape(dim.width >= dim.height);
+    setLandscape(isLandscape());
   });
 
   useEffect(() => {
