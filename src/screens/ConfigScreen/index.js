@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Alert } from 'react-native';
-import { Flex, Button } from 'native-base';
+import { Flex, Button, ScrollView } from 'native-base';
 import colors from '../../colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -34,29 +34,32 @@ const ConfigScreen = () => {
   return (
     <Container>
       <HeaderTitle>{translate('SETTINGS')}</HeaderTitle>
-      <Flex 
-        flex={1} 
-        alignItems='center' 
-        paddingTop={5} 
-        style={{backgroundColor: 'white'}}
-      >
-        <UpdateRemoveCourseButton onPress={() => setShowModal(true)} />
-        <UpdateRemoveCourseModal 
-          show={showModal} 
-          onClose={() => setShowModal(false)}
-          courses={courses} 
-          selectedCourse={course} 
-          setSelectedCourse={setCourse} 
-          onRemoveCourse={() => handleRemoveCourse(dispatch, setShowModal, navigation, 
-                                                  course, setCourse, color)} 
-          onUpdateCourse={() => handleUpdateCourse(dispatch, setShowModal, navigation, 
-                                                  course, setCourse, color)} 
-          colorRef={color}
-        />
-        <RemoveAllMonthTasksButton onPress={() => handleRemoveAllMonthTasks(dispatch, navigation)} />
-        <RemoveAllSemesterTasksButton onPress={() => handleRemoveAllSemesterTasks(dispatch, navigation)} />
-        <ResetButton onPress={() => handleReset(dispatch, navigation)} />
-      </Flex>
+      <ScrollView>
+        <Flex 
+          flex={1} 
+          alignItems='center' 
+          paddingTop={5}
+          paddingBottom={50}
+          style={{backgroundColor: 'white'}}
+        >
+          <UpdateRemoveCourseButton onPress={() => setShowModal(true)} />
+          <UpdateRemoveCourseModal 
+            show={showModal} 
+            onClose={() => setShowModal(false)}
+            courses={courses} 
+            selectedCourse={course} 
+            setSelectedCourse={setCourse} 
+            onRemoveCourse={() => handleRemoveCourse(dispatch, setShowModal, navigation, 
+                                                    course, setCourse, color)} 
+            onUpdateCourse={() => handleUpdateCourse(dispatch, setShowModal, navigation, 
+                                                    course, setCourse, color)} 
+            colorRef={color}
+          />
+          <RemoveAllMonthTasksButton onPress={() => handleRemoveAllMonthTasks(dispatch, navigation)} />
+          <RemoveAllSemesterTasksButton onPress={() => handleRemoveAllSemesterTasks(dispatch, navigation)} />
+          <ResetButton onPress={() => handleReset(dispatch, navigation)} />
+        </Flex>
+      </ScrollView>
     </Container>
   );
 }
