@@ -1,0 +1,45 @@
+UNDONE
+    outubro (1 semana do mês)
+        IA
+            quiz semanal
+        COMP
+            1 trab
+        CG
+            1 trab
+        MLP
+            1 quest semanal
+        PROJ BD
+            1 trab
+----
+
+
+
+# IA
+    5 trabalhos (mensais)
+        1 por mes, exceto primeiro
+    quiz semanais
+    exame: dez
+
+# COMP
+    7 trabalhos (ago, 2x set, 2x out, 2x nov)
+    exame: dez
+
+# CG
+    4 trab (1x ago, 2x set, 1x out)
+    exame: dez
+
+# CALC NUM
+    2 trab (set, nov)
+    exame: dez
+
+# MLP
+    (ATP) questionarios semanais
+    exame: dez
+
+# OTIMIZ COMB
+    2 trab (set, nov)
+    exame: dez
+
+# PROJ. BANCO DADOS
+    1 trab (ago até nov)
+    exame: dez

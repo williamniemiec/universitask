@@ -20,8 +20,8 @@ const HistoryScreen = ({ route }) => {
 
   const [tasks, setTasks] = useState([]);
   const persistedCourses = useSelector(state => state.UserReducer.courses);
-  const persistedTasks = useSelector(state => state.UserReducer.tasks);
-  const persistedDoneTasks = useSelector(state => state.UserReducer.done);
+  //const persistedTasks = useSelector(state => state.UserReducer.tasks);
+  const persistedTasks = useSelector(state => state.UserReducer.done);
   
   //const coursesView = getCoursesView(persistedCourses, persistedTasks);
   //const deadlines = getDeadlines(persistedTasks);

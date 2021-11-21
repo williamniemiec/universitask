@@ -1,5 +1,7 @@
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
+import mockedCourses from './mockedData/mockedCourses';
+import { doneTasks, undoneTasks } from './mockedData/mockedTasks';
 
 /*
  * courses: [{
@@ -22,10 +24,16 @@ import { v4 as uuid } from 'uuid';
  *   dateEnd: 0
  * }]
  */
-const initialState = {
+/*const initialState = {
   courses: [],
   tasks: [],
   done: []
+};*/
+
+const initialState = {
+  courses: mockedCourses,
+  tasks: undoneTasks,
+  done: doneTasks
 };
 
 export default (state=initialState, action) => {
@@ -165,10 +173,10 @@ function markAsDone(taskId, state) {
   if (!state.done)
     state.done = []
 
-  const undoneTasks = state.tasks.filter(t => t.id != taskId);
-  const doneTasks = state.done.push(getPersistedTaskWithId(taskId, state));
+  const undone = state.tasks.filter(t => t.id != taskId);
+  const done = state.done.push(getPersistedTaskWithId(taskId, state));
 
-  return { ...state, tasks: undoneTasks, done: doneTasks };
+  return { ...state, tasks: undone, done: done };
 }
 
 function getPersistedTaskWithId(id, state) {
