@@ -24,17 +24,17 @@ import { doneTasks, undoneTasks } from './mockedData/mockedTasks';
  *   dateEnd: 0
  * }]
  */
-/*const initialState = {
+const initialState = {
   courses: [],
   tasks: [],
   done: []
-};*/
+};
 
-const initialState = {
+/*const initialState = {
   courses: mockedCourses,
   tasks: undoneTasks,
   done: doneTasks
-};
+};*/
 
 export default (state=initialState, action) => {
 
