@@ -64,11 +64,8 @@ ReferenceError: SHA-1 for file /usr/local/lib/node_modules/react-native/node_mod
 ## 🖼 Gallery
 
 <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; flex-wrap: wrap">
+
 <img height=400 src="https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/screens/img1.png" alt="image 1" />
-
-<img height=400 src="https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/screens/img2.png" alt="image 2" />
-
-<img height=400 src="https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/screens/img3.png" alt="image 3" />
 
 <img height=400 src="https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/screens/img4.png" alt="image 4" />
 
