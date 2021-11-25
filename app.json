@@ -5,11 +5,11 @@
     "owner": "universitask",
     "name": "universitask",
     "icon": "./src/assets/img/icon/icon.png",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "slug": "UniversiTask",
     "ios": {
       "bundleIdentifier": "com.universitask",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.1"
     },
     "android": {
       "package": "com.universitask",

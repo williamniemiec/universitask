@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Alert } from 'react-native';
+import { Alert, Dimensions } from 'react-native';
 import {
   Flex,
   Input,
   Heading, 
   Select,
-  CheckIcon
+  CheckIcon,
+  ScrollView
 } from 'native-base';
 import colors from '../../colors';
 import PlusButton from '../../components/buttons/PlusButton';
@@ -30,6 +31,7 @@ const CreateTaskScreen = ({refresh}) => {
   const [courseName, setCourseName] = useState('');
   const [hasCourses, setHasCourses] = useState(false);
   const [updateCourses, setUpdateCourses] = useState(false);
+  const [landscape, setLandscape] = useState(true);
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -46,6 +48,16 @@ const CreateTaskScreen = ({refresh}) => {
     }];
   }
 
+  function isLandscape() {
+    const dim = Dimensions.get('screen');
+      
+    return (dim.width >= dim.height);
+  }
+
+  Dimensions.addEventListener('change', () => {
+    setLandscape(isLandscape());
+  });
+
   useEffect(() => {
     setHasCourses(courses.length > 0);
   }, [updateCourses]);
@@ -53,42 +65,46 @@ const CreateTaskScreen = ({refresh}) => {
   return (
     <Container>
       <HeaderTitle>{translate('NEW_TASK')}</HeaderTitle>
-      <Flex 
-        flex={1} 
-        alignItems='center' 
-        paddingTop={5} 
-        style={{backgroundColor: 'white'}}
-      >
-        <NameField name={name} setName={setName} />
-        <CourseField 
-          hasCourses={hasCourses}
-          colorRef={color} 
-          courses={courses} 
-          course={course} 
-          setCourse={setCourse} 
-          handleNewCourse={() => setShowModal(true)} 
-        />
-        <CreateCourseModal 
-          show={showModal} 
-          onClose={() => setShowModal(false)}
-          courseName={courseName} 
-          setCourseName={setCourseName} 
-          onCreateCourse={() => handleNewCourse(dispatch, setShowModal, setCourse, 
-                                                courseName, setCourseName, color, 
-                                                setUpdateCourses)} 
-          colorRef={color}
-        />
-        <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
-        <PrimaryButton 
-          width='90%' 
-          marginTop={5} 
-          onPress={() => handleNewTask(course, name, dateBegin, dateEnd, dispatch, 
-                                      navigation, setName, setCourse, setCourseName, 
-                                      color)}
+      <ScrollView>
+        <Flex 
+          flex={1} 
+          alignItems='center' 
+          paddingTop={5}
+          marginBottom={35}
+          style={{backgroundColor: 'white'}}
         >
-          {translate('CREATE').toUpperCase()}
-        </PrimaryButton> 
-      </Flex>
+          <NameField name={name} setName={setName} />
+          <CourseField 
+            hasCourses={hasCourses}
+            colorRef={color} 
+            courses={courses} 
+            course={course} 
+            setCourse={setCourse} 
+            handleNewCourse={() => setShowModal(true)}
+            landscape={landscape}
+          />
+          <CreateCourseModal 
+            show={showModal} 
+            onClose={() => setShowModal(false)}
+            courseName={courseName} 
+            setCourseName={setCourseName} 
+            onCreateCourse={() => handleNewCourse(dispatch, setShowModal, setCourse, 
+                                                  courseName, setCourseName, color, 
+                                                  setUpdateCourses)} 
+            colorRef={color}
+          />
+          <DateRangeField dateBegin={dateBegin} dateEnd={dateEnd} />
+          <PrimaryButton 
+            width='90%' 
+            marginTop={5} 
+            onPress={() => handleNewTask(course, name, dateBegin, dateEnd, dispatch, 
+                                        navigation, setName, setCourse, setCourseName, 
+                                        color)}
+          >
+            {translate('CREATE').toUpperCase()}
+          </PrimaryButton> 
+        </Flex>
+      </ScrollView>
     </Container>
   );
 }
@@ -102,7 +118,7 @@ const NameField = ({ name, setName }) => (
       placeholder='Exam'
       value={name}
       w={{
-        md: "50%",
+        md: "100%",
       }}
       style={{
         backgroundColor: '#ffffff',
@@ -117,7 +133,7 @@ const NameField = ({ name, setName }) => (
   </Flex>
 );
 
-const CourseField = ({ colorRef, courses, course, setCourse, handleNewCourse, hasCourses }) => {
+const CourseField = ({ colorRef, courses, course, setCourse, handleNewCourse, hasCourses, landscape }) => {
 
   function getCourseColor(id) {
     const c = courses.find(c => c.id == id);
@@ -128,12 +144,12 @@ const CourseField = ({ colorRef, courses, course, setCourse, handleNewCourse, ha
   return (
     <Flex width='90%'>
       <Heading size='xs'>{translate('COURSE')}</Heading>
-      <Flex width='100%' flexDirection='row'>
+      <Flex flexDirection='row'>
       <Select
           isDisabled={!hasCourses}
           selectedValue={course}
           minWidth="200"
-          width='88%'
+          width={landscape ? '94%' : '86%'}
           accessibilityLabel="Choose course"
           placeholder="Course"
           _selectedItem={{

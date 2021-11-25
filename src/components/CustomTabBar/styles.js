@@ -21,7 +21,6 @@ export default StyleSheet.create({
     width: 100,
     borderRadius: 50,
     bottom: 15,
-    left: '40%',
     borderWidth: 10,
     borderColor: '#fff'
   },
