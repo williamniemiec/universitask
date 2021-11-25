@@ -67,8 +67,6 @@ ReferenceError: SHA-1 for file /usr/local/lib/node_modules/react-native/node_mod
 
 <img height=400 src="https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/screens/img1.png" alt="image 1" />
 
-<img height=400 src="https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/screens/img4.png" alt="image 4" />
-
 <img height=400 src="https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/screens/img5.png" alt="image 5" />
 
 <img height=400 src="https://raw.githubusercontent.com/williamniemiec/universitask/master/docs/img/screens/img6.png" alt="image 6" />
